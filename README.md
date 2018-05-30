@@ -15,6 +15,7 @@ Thumbcloud is a drop-in software replacement for your USB thumbdrive.
 - [ ] Upload files
 - [ ] Server Settings
     - [ ] Set max connections
+    - [ ] Restrict to only download, only view files
     - [ ] Only access with password
 - [ ] GUI for server
 - [ ] Product Website
