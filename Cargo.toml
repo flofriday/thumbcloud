@@ -4,6 +4,7 @@ version = "0.0.1"
 authors = ["flofriday <flohacksfriday@gmail.com>"]
 description = "Thumbcloud is a drop-in software replacement for your USB thumbdrive."
 readme = "README.md"
+repository = "https://github.com/flofriday/thumbcloud.git"
 license = "MIT"
 
 [dependencies]
