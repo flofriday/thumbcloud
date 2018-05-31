@@ -8,4 +8,4 @@ repository = "https://github.com/flofriday/thumbcloud.git"
 license = "MIT"
 
 [dependencies]
-actix-web = "0.6"
+actix-web = "^0.6"
