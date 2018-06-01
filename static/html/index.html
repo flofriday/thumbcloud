@@ -1,1 +1,20 @@
 index.html
+
+<script>
+    //var wsUri = (window.location.protocol=='https:'&&'wss://'||'ws://')+window.location.host + '/ws/';
+    var wsUri = 'ws:127.0.0.1:80/ws/'
+conn = new WebSocket(wsUri);
+
+conn.onmessage = function(e) {
+    console.log('Received: ' + e.data);
+};
+
+conn.onclose = function() {
+    console.log('Disconnected.');
+    conn = null;
+};
+
+function sendMe(msg) {
+    conn.send(msg);
+}
+</script>
