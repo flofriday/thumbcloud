@@ -10,3 +10,6 @@ license = "MIT"
 [dependencies]
 actix = "^0.5"
 actix-web = "^0.6"
+serde = "1.0"
+serde_json = "1.0"
+serde_derive = "1.0"
