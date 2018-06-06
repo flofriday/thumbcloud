@@ -3,6 +3,8 @@ use actix_web::fs::NamedFile;
 use actix_web::*;
 use std::path::PathBuf;
 
+use decoder;
+
 fn index(_req: HttpRequest) -> Result<NamedFile> {
     println!("Visiting index");
     let path = PathBuf::from("./static/html/index.html");
@@ -31,7 +33,7 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for Ws {
     fn handle(&mut self, msg: ws::Message, ctx: &mut Self::Context) {
         match msg {
             ws::Message::Ping(msg) => ctx.pong(&msg),
-            ws::Message::Text(text) => ctx.text(text),
+            ws::Message::Text(text) => ctx.text(decoder::decode(text)),
             ws::Message::Binary(bin) => ctx.binary(bin),
             _ => (),
         }
@@ -39,6 +41,8 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for Ws {
 }
 
 pub fn run() {
+    let addr = "127.0.0.1:80";
+
     server::new(|| {
         vec![
             App::new().prefix("/about").resource("/", |r| r.f(about)),
@@ -50,7 +54,7 @@ pub fn run() {
                     fs::StaticFiles::new("./static/").default_handler(index),
                 ),
         ]
-    }).bind("127.0.0.1:80")
-        .expect("Can not start server on given IP/Port")
+    }).bind(addr)
+        .expect(format!("Can not start server on: {}", addr).as_str())
         .run();
 }
