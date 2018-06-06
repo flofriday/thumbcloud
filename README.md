@@ -1,6 +1,6 @@
 # Thumbcloud
 Thumbcloud is a drop-in software replacement for your USB thumbdrive.
-
+![Screenshot](./screenshot.png)
 
 ## Todo List 
 ### v0.0.1
