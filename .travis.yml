@@ -38,9 +38,9 @@ matrix:
     #os: osx
 
     # Linux
-    - env: TARGET=aarch64-unknown-linux-gnu
-    - env: TARGET=arm-unknown-linux-gnueabi
-    - env: TARGET=armv7-unknown-linux-gnueabihf
+    #- env: TARGET=aarch64-unknown-linux-gnu
+    #- env: TARGET=arm-unknown-linux-gnueabi
+    #- env: TARGET=armv7-unknown-linux-gnueabihf
     - env: TARGET=i686-unknown-linux-gnu
       #- env: TARGET=i686-unknown-linux-musl
       #- env: TARGET=mips-unknown-linux-gnu
@@ -55,7 +55,7 @@ matrix:
       #- env: TARGET=x86_64-unknown-linux-musl
 
     # OSX
-    #- env: TARGET=i686-apple-darwin #TODO: reenable it later
+    #- env: TARGET=i686-apple-darwin
     #os: osx
     - env: TARGET=x86_64-apple-darwin
       os: osx
@@ -63,7 +63,7 @@ matrix:
     # *BSD
     - env: TARGET=i686-unknown-freebsd DISABLE_TESTS=1
     - env: TARGET=x86_64-unknown-freebsd DISABLE_TESTS=1
-      #- env: TARGET=x86_64-unknown-netbsd DISABLE_TESTS=1 #TODO: reenable later
+      #- env: TARGET=x86_64-unknown-netbsd DISABLE_TESTS=1
 
     # Windows
     #- env: TARGET=x86_64-pc-windows-gnu
@@ -105,14 +105,7 @@ deploy:
   # - Encrypt it: `travis encrypt 0123456789012345678901234567890123456789
   # - Paste the output down here
   api_key:
-    secure: "iscB7UkzxAksfr8UFlaMZEW/yur4g969twWThM7avgYxtDe9f9o9k/Pv/rPd4ljxwy6KBrVE6L/XYgWj0rHk
-er0enP/ja+1M510s2VokyGoN6LBiwlNXGvR9WjNDHgKSizdj38Wc9fxoZ7txnR+X9ByFSxdOtsePFy5k0rPP3mOCwxCC9ig
-wrFjl6+sjO8gNCWpmI9hr/rLf3VAVJ6cDadOutlRvgiec5dE+kL34oS0qmVukSHuW9NUXAOnXtCUQ9uVXte3xI7tUlFwqeO
-uQ8I4loJHf5K0r3l4i/irly5I4r8/ML2KHs/EXNc663PZTESwcn3QNGKMcPGCdRt0JDlX0n5hBipD112XxNYiWRGpL/R5/L
-g/T7OqPk0DvcD43+AxJo7H90WIQ/3hTYT3Jyd0ft0xHKBvL7ZfSeu4yiMvaBc2M0/hvD+ZVyNmv3lt+MupDJFRxmFa2MSmx
-ldn5T4S/Sip1kpmtZbTHXClxDor7IjUMARG9f+gBPQe8QFE4FCTV+dvESwl2AIdYYaqTcKENCwITxa+rlZ35WGA9bCSALb8
-Ex2TNb93zH/U6AhbYBp3epnygjGq2d11Wpo+XNTvzz7/PnPc8km+41d7FVcD0LPRY4SaJVkj0OyBKi2l9k7KSlPhuAEwSo9
-y6DBOVL8Mk5PEGk1VyaEFd30ER+fY="
+    secure: c3ZRFyjRnwYZtLnXtAdvKV+IqzwE1ovw9Z5ynPgPCJ6E100HWm50iKa4uk+Njs27MLBRJP0+ZcjV93ATlbCemr1XefAKMbc9QfMol70garsHEby6o1I4GKE6zh33GOLzslW9PHbhVSOdWi5WxcBrJvQ2a4ZCKHpmfdKWyK3Im8hvYMWber3s476dhP7SMGV68HVSS38+BfOOvzr3En93dyCiY3nD9irLxtyMlbT5p+VmrfCqE4DDfaYnJcGe2DG42R9Ie04krOe9dvrkMuNALR66ie38nphN+lce5JvSb9ZNOytta7/xzOCI647zMZBlO1oAq5/PzIShsWC0QQubN17y6EDh5EOZZNfX4nfqKIzPxZMh9pV8IzarlVwHxrp6hfKo2BB9JTHM8ENjG+BSDuAa98sHAVFVoujPZsRnBgqxxzWofZOA65c94Yw+MhkAZJN1dxk/aHRV0fChWTA5J93nr/D5JXXcPN2iVBR7ZeY3F/f9LReLRuVc0eBet97/pBmZlmplO5w/zMREwnZqWwemsvTeY5fVPn43sWSgSczil97RbOjlJNi5xHKWjOHhJB7ZHM+lf7c1soBJkzIUMOBmDt/yFGPhOb60UN4He29Nzkt+NRQPGWRBsgPKHGUSpL9nqupC669e8+TXEEq2Eu6/IvBtF3vZVQw4OQM4Vnk=
   file_glob: true
   file: $CRATE_NAME-$TRAVIS_TAG-$TARGET.*
   on:
