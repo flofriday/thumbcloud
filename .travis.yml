@@ -66,7 +66,7 @@ matrix:
       #- env: TARGET=x86_64-unknown-netbsd DISABLE_TESTS=1 #TODO: reenable later
 
     # Windows
-    - env: TARGET=x86_64-pc-windows-gnu
+    #- env: TARGET=x86_64-pc-windows-gnu
 
     # Bare metal
     # These targets don't support std and as such are likely not suitable for
@@ -105,7 +105,7 @@ deploy:
   # - Encrypt it: `travis encrypt 0123456789012345678901234567890123456789
   # - Paste the output down here
   api_key:
-    secure: "h14uKO2M07SS/ZIlS9lWt871rfurcWp6zmGijYPbJAUwiaAGskRLXH0jcK4b53WPfe8sDTOVwzkD6riLPGgv/yuXuqP4daBdRI8ALWl0P+ml35kmyqcB0wpD/QSJeYs1z1yiWcYksKnFPRa8JkhZW4QK4zmEoduvEcHpfIhc5R+bvXFPA6XCPz+sw+Kf8aKTIQVMTjDvnzTqSmTT4kD2NQdGbZgEhXjsgzADwVZ5kUoMX44/GJOT6/JjedxbneCWhk2xYvAaLIcwFMthz4IIQMp2jYXPtsQohSyy6k9I73rfxKKV1u3wpgWV27jOiV2SSyyhJqUqvofQg/djBVmRTfBUaIH0k1qedrkmXpBwSSBQs84wJQOW9Fp+9R6vzxxSpx1GUiLyxxn7i2XAN7y+ZJFa4cBRYVbAwZJ+8h+CZVLszmd/p+Y0S46ASXQYpjZXJqH75p43u6lIWzE6zh9Dwvr5d+W/0/2uhk9+U2p26dBXHIM36V6tZCG8V6/MXB94P9W6ZtHPi8KffkfS/w9TIVKQJ3OMcRpyNu8y1nKIHodrUCrFMxLcUqMU0anX5e85ZkrvwDd5yPhV+WnL9B3U2x1+q3CzAnf5DP9yy/ugmIJ/y10udRKTLgblofLnuxzjz8f5ogEjK/hfwxnqaDGbUYT3jbdmGuHHzufhhkq2nAs="
+    secure: "Obc2dRPPqUP8NGeWfJyVacnq8wfNplFliR1RepBqSRp9FsqVigaMqfdWUxrCXNDsjlAKXFM1u5xgAxtuhlcLTqC+FbONG7W0bj0s4bKCDpRrJUB1e86MQ09Mtj5VHUPjkxqCd9dogq54jYiBfznRINz2C1QWYkwCGhhETxTD6i5VWPPartWS8zdiSPPbLm4uTtzpGQUPXeElenzT9IrJKQ9bJE0xtIv1ndjGMYkinLP/YDEAQ2YOfh3v0vLtZXlbD/GhM/TNEEviqExsqyACxNCEVfWn2zpiIefj7RH/gMVtiUWcMcBzS+yTXkEe9KGp7sKpICuvW5EttqO6k49bnICP5P7BFBuy58J0UYr5lA9cP994E+x/0dC6KIK54c745zhOeS0m0fCEjKau/lv0PjbySDpNET5gANdbLo+uXGyK4KwZTxzPQXXsr29aCo++4j9w6rr4CunolIzyS9XQzgbn52AncmUV5R4bREVso18OAtJTXQhtaVGK1iyfrmtiA7jgrIw5bYd4zC2rzqLRXPB5T8Bs86bEjOVVHZvxQ0GK6Tm6OoGF0p1WcGNJiEPG2zt/K+nLYZQ2+KNIHrNsuOBEA5lapQK6l+FXHkTriZWeYvaFlq0H4ZiexgaqI9TLgl0FbSiut0wCeP0Jo7bx5E05/NFyutX5sbnw7Hebkg4="
   file_glob: true
   file: $CRATE_NAME-$TRAVIS_TAG-$TARGET.*
   on:
