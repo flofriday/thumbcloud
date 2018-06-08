@@ -50,7 +50,7 @@ test_script:
       cargo test --target %TARGET% --release #&&
       #cargo run --target %TARGET% &&
       #cargo run --target %TARGET% --release
-    )
+      )
 
 before_deploy:
   # TODO Update this to build the artifacts that matter to you
