@@ -22,10 +22,10 @@ environment:
     - TARGET: x86_64-pc-windows-msvc
 
     # Testing other channels
-    - TARGET: x86_64-pc-windows-gnu
-      RUST_VERSION: nightly
-    - TARGET: x86_64-pc-windows-msvc
-      RUST_VERSION: nightly
+    #- TARGET: x86_64-pc-windows-gnu
+    #RUST_VERSION: nightly
+    #- TARGET: x86_64-pc-windows-msvc
+    #RUST_VERSION: nightly
 
 install:
   - ps: >-
@@ -54,7 +54,7 @@ test_script:
 
 before_deploy:
   # TODO Update this to build the artifacts that matter to you
-  - cargo rustc --target %TARGET% --release --bin hello -- -C lto
+  - cargo rustc --target %TARGET% --release --bin thumbcloud -- -C lto
   - ps: ci\before_deploy.ps1
 
 deploy:
