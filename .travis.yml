@@ -28,13 +28,12 @@ deploy:
   provider: releases
   api_key:
     secure: hZlYMr7yI0ogPbc+Min7/cBervGMaZOP6bGxWuTKMLuZA7iHlycojQcmbxYFsYvZ4+y+65njmuVKQlA0AZ6qkweL3mtoUpQrlUi6cIUAOFy5mgnGRn1/7QRCBJJ0UuN1KriZH7cyE7SwPPX2z/PiwsrmvwI1+aQZWvZvtvGpUpcy+AvXKJCNGRkgmS5K5Djb85caCz9kq6XBX/bUtT3jlZQmiFTL2O0EmWpmnBuZX97xGRmJDSf1aXE5vnUZLnb5aL6PwEg57WVI2xvvcdzYFkPTAAoKIqfbFNkixJ78ay4uKM/S4oSCVzcvHWenypdicgL1Ypk1ZUnVhfxshf3Co6KXam/z+KLQi0RyIsajUSd5SFjYkNDUxtrj0svgDTBAO04Ax4G9ATUZJRy2/w/ZWYIJaPIzudjMtJOjf3dGWlXF8P79m23g0jblqIkJfaztIw3UpvdwQGSomo9aj7QJ7x0NSTYq7oD6cVVgPrnsDdpa+cdAifGyJgxbmK7ynIs/AaeOMF+rgNOe0jDTrPI4BHLNaQg5r9qJNqTyfK/8Eh5JfyBf+QlAkLK9/NqU7y/5CzEs5qDJE8bEpEXGYGVDABtpt7QcNexLtI6Sv0HrSnCupBGLZkJmoQd5p4txbhHOlgJkHNhRhTPDwl+kNAR3wZ1ZBHjriK3YPVCFLfBBXuI=
+  file: "$CRATE_NAME-$TRAVIS_TAG-$TARGET.*"
   file_glob: true
-  file: $CRATE_NAME-$TRAVIS_TAG-$TARGET.*
   on:
     repo: flofriday/thumbcloud
     tags: true
     condition: $TRAVIS_RUST_VERSION = stable
-  skip_cleanup: true
 cache: cargo
 before_cache:
 - chmod -R a+r $HOME/.cargo
