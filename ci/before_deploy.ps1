@@ -13,6 +13,10 @@ $ZIP = "$SRC_DIR\$($Env:CRATE_NAME)-$($Env:APPVEYOR_REPO_TAG_NAME)-$($Env:TARGET
 # TODO Update this to package the right artifacts
 Copy-Item "$SRC_DIR\target\$($Env:TARGET)\release\thumbcloud.exe" '.\'
 
+# Thumbcloud add static files to deploy folder
+Copy-Item "$SRC_DIR\static" '.\'
+
+
 7z a "$ZIP" *
 
 Push-AppveyorArtifact "$ZIP"

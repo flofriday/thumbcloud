@@ -23,6 +23,9 @@ main() {
     # TODO Update this to package the right artifacts
     cp target/$TARGET/release/thumbcloud $stage/
 
+    # Thumbcloud: add static files to realease folder
+    cp static $stage/ -r
+
     cd $stage
     tar czf $src/$CRATE_NAME-$TRAVIS_TAG-$TARGET.tar.gz *
     cd $src
