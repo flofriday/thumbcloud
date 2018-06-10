@@ -3,7 +3,7 @@ Thumbcloud is a drop-in software replacement for your USB thumbdrive.
 ![Screenshot](./screenshot.png)
 
 ## Install
-Just download the [latest release](releases) and unpack it.
+Just download the [latest release](https://github.com/flofriday/thumbcloud/releases) and unpack it.
 
 Warning: Windows and macOS might warn you because the binaries are not singed. Feel free ignore those warnings.
 
