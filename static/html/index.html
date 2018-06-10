@@ -59,8 +59,7 @@ function decode(input) {
 }
 
 function renderFiles(path, folders, files) {
-    var output = '';
-
+    // Create the path navigation element
     if (path != '') {
         pathOutput = '';
         pathList = path.split("/");
@@ -80,6 +79,9 @@ function renderFiles(path, folders, files) {
         pathOutput = pathOutput.substring(0, pathOutput.length - 1);
         pathElement.innerHTML = pathOutput;
     } 
+
+    // Create the file and folder list
+    var output = '';
 
     for (i = 0; i < folders.length; i++) {
         var name = folders[i];
