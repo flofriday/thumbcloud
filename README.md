@@ -1,4 +1,4 @@
-# Thumbcloud
+# Thumbcloud [![Build Status](https://travis-ci.com/flofriday/thumbcloud.svg?branch=master)](https://travis-ci.com/flofriday/thumbcloud)
 Thumbcloud is a drop-in software replacement for your USB thumbdrive.
 ![Screenshot](./screenshot.png)
 
