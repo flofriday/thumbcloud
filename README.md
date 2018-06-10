@@ -23,6 +23,7 @@ Warning: Windows and macOS might warn you because the binaries are not singed. F
 
 ### v0.0.3
 - [ ] Upload files
+- [ ] Download folders as .zip
 - [ ] View file content without downloading
 - [ ] System page
 
