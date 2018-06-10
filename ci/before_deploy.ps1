@@ -14,7 +14,7 @@ $ZIP = "$SRC_DIR\$($Env:CRATE_NAME)-$($Env:APPVEYOR_REPO_TAG_NAME)-$($Env:TARGET
 Copy-Item "$SRC_DIR\target\$($Env:TARGET)\release\thumbcloud.exe" '.\'
 
 # Thumbcloud add static files to deploy folder
-Copy-Item "$SRC_DIR\static" '.\'
+Copy-Item "$SRC_DIR\static" '.\' -Recurse
 
 
 7z a "$ZIP" *
