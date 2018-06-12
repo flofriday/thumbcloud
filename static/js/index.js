@@ -64,15 +64,20 @@ function renderFiles(path, folders, files) {
                     fullPath += '/';
                 }
             }
-            pathOutput += '<a href="#' + fullPath + '">' + pathList[i] + '</a>/';
+            pathOutput += '<a href="#' + fullPath + '">' + pathList[i] + '</a> / ';
         }
 
-        pathOutput = pathOutput.substring(0, pathOutput.length - 1);
-        pathElement.innerHTML = pathOutput;
+        pathOutput = pathOutput.substring(0, pathOutput.length - 2);
+        pathElement.innerHTML = '<h5>' + pathOutput + '</h5>';
     } 
 
     // Create the file and folder list
     var output = '';
+
+	// Check if there are even elements in that folder
+		if (folders.length == 0 && files.length == 0) {
+				output += renderRow('<i>this folder is empty</i>', '');
+		}
 
     for (i = 0; i < folders.length; i++) {
         var name = folders[i];
