@@ -41,7 +41,7 @@ function decode(input) {
 
     if (obj.action == 'sendFilelist') {
         renderFiles(path, obj.folders, obj.files);
-        
+
     } else if (obj.action == 'sendError') {
         console.log('Got Error from Server:' + obj.message);
     } else {
@@ -74,19 +74,19 @@ function renderFiles(path, folders, files) {
     // Create the file and folder list
     var output = '';
 
-	// Check if there are even elements in that folder
-		if (folders.length == 0 && files.length == 0) {
-				output += renderRow('<i>this folder is empty</i>', '');
-		}
+    // Check if there are even elements in that folder
+    if (folders.length == 0 && files.length == 0) {
+        output += renderRow('<i>this folder is empty</i>', '');
+    }
 
     for (i = 0; i < folders.length; i++) {
         var name = folders[i];
-		var nameHTML = '<a href="#' + path + name + '" >' + name + "/</a><br>";
+        var nameHTML = '<a href="#' + path + name + '" >' + name + "/</a><br>";
         output += renderRow(nameHTML, '');
     }
 
     for (i = 0; i < files.length; i++) {
-			var nameHTML = files[i] + "<br>"; 
+        var nameHTML = files[i] + "<br>"; 
         output += renderRow(nameHTML, '');
     }
 
@@ -94,8 +94,8 @@ function renderFiles(path, folders, files) {
 }
 
 function renderRow(name, size) {
-		var out = '<tr><td>'+name+'</td><td>'+size+'</td><td></td></tr>';
-		return out;
+    var out = '<tr><td>'+name+'</td><td>'+size+'</td><td></td></tr>';
+    return out;
 }
 
 
