@@ -7,29 +7,94 @@
 		<!-- CSS Dependencies -->
 		<link rel="stylesheet" href="./../css/bootstrap.min.css">
 		<link rel="stylesheet" href="./../css/shards.min.css">
+<style>
+.table-striped tbody tr:nth-of-type(2n+1) {
+		background-color: rgb(247, 248, 251) !important;
+}
+th, td {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+</style>
+
 	</head>
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
-			<a class="navbar-brand" href="">
-				<img src="./../img/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-				Thumbcloud
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-				<div class="navbar-nav">
-					<a class="nav-item nav-link active" href="#">Files<span class="sr-only">(current)</span></a>
-					<a class="nav-item nav-link" href="#">System</a>
-					<a class="nav-item nav-link" href="#">About</a>
+
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-sm navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="">
+					<img src="./../img/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+					Thumbcloud
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav">
+						<a class="nav-item nav-link active" href="">Files<span class="sr-only">(current)</span></a>
+						<a class="nav-item nav-link" href="system">System</a>
+						<a class="nav-item nav-link" href="about">About</a>
+					</div>
 				</div>
 			</div>
 		</nav>
 		
 
-		<br>
+		<!-- Page content -->
+		<div class="container">
+			<div class="row">
+				<div id="path" class="col">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<div class="card" style="padding-top: 0px">
+						<table class="table table-borderless table-striped table-sm">
+							<thead>
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Size</th>
+									<th scope="col-auto"></th>
+								</tr>
+							</thead>
+							<tbody id="content">
+								<!--<tr>
+									<td>Mark</td>
+									<td>Otto</td>
+									<td>@mdo</td>
+								</tr>
+								<tr>
+									<td>Jacob</td>
+									<td>Thornton</td>
+									<td>@fat</td>
+								</tr>
+								<tr>
+									<td>Larry</td>
+									<td>the Bird</td>
+									<td>@twitter</td>-->
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="col-md-auto">
+					<div class="row">
+						<button type="button" class="btn btn-primary">Upload</button>
+					</div>
+					<div class="row">
+						<button type="button" class="btn btn-outline-primary">New Folder</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+		<!--<br>
 		<div id="path"></div>
-		<br>
+		<br>-->
+
+
 
 
 		<div id="content"></div>

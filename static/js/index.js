@@ -76,14 +76,21 @@ function renderFiles(path, folders, files) {
 
     for (i = 0; i < folders.length; i++) {
         var name = folders[i];
-        output += '<a href="#' + path + name + '" >' + name + "/</a><br>";
+		var nameHTML = '<a href="#' + path + name + '" >' + name + "/</a><br>";
+        output += renderRow(nameHTML, '');
     }
 
     for (i = 0; i < files.length; i++) {
-        output += files[i] + "<br>";
+			var nameHTML = files[i] + "<br>"; 
+        output += renderRow(nameHTML, '');
     }
 
     contentElement.innerHTML = output;
+}
+
+function renderRow(name, size) {
+		var out = '<tr><td>'+name+'</td><td>'+size+'</td><td></td></tr>';
+		return out;
 }
 
 
