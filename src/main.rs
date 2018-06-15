@@ -1,3 +1,5 @@
+extern crate futures;
+
 extern crate actix;
 extern crate actix_web;
 
