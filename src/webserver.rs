@@ -1,5 +1,6 @@
 use actix::*;
 use actix_web::fs::NamedFile;
+use actix_web::http::{Method};
 use actix_web::*;
 use std::path::PathBuf;
 
@@ -23,6 +24,16 @@ fn system(_req: HttpRequest) -> Result<NamedFile> {
     Ok(NamedFile::open(path)?)
 }
 
+fn download(req: HttpRequest) -> HttpResponse {
+
+    HttpResponse::Ok()
+        .content_type("test/plain")
+        .body(format!(
+                "Hello {}!",
+                req.match_info().get("file").unwrap()
+        ))
+}
+
 struct Ws;
 
 impl Actor for Ws {
@@ -44,16 +55,15 @@ pub fn run() {
     let addr = "127.0.0.1:80";
 
     server::new(|| {
-        vec![
-            App::new().prefix("/about").resource("/", |r| r.f(about)),
-            App::new().prefix("/system").resource("/", |r| r.f(system)),
-            App::new()
-                .resource("/ws/", |r| r.f(|req| ws::start(req, Ws)))
-                .handler(
-                    "/",
-                    fs::StaticFiles::new("./static/").default_handler(index),
-                ),
-        ]
+        App::new()
+            .resource("/about", |r| r.f(about))
+            .resource("/system", |r| r.f(system))
+            .resource("/download/{file}", |r| r.method(Method::GET).f(download))
+            .resource("/ws/", |r| r.f(|req| ws::start(req, Ws)))
+            .handler(
+                "/",
+                fs::StaticFiles::new("./static/").default_handler(index),
+            )
     }).bind(addr)
         .expect(format!("Can not start server on: {}", addr).as_str())
         .run();
