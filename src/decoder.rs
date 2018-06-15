@@ -15,11 +15,11 @@ pub fn decode(input: String) -> String {
         path.pop();
 
         println!("Open path: {}", path); //TODO: remove later
-        return files::get_file_respond(PathBuf::from(path.as_str()))
+        return files::get_file_respond(PathBuf::from(path.as_str()));
     } else {
         return json!({
                 "action": "sendError",
                 "message": format!("Unknown action from client: {:?}", data["action"]) 
-        }).to_string()    
+        }).to_string();
     }
 }

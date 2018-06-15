@@ -13,9 +13,10 @@ struct FileRespond {
 impl FileRespond {
     fn new() -> FileRespond {
         FileRespond {
-            action: "sendFilelist".to_string(), 
+            action: "sendFilelist".to_string(),
             path: String::new(),
-            folders: Vec::new(), files: Vec::new() 
+            folders: Vec::new(),
+            files: Vec::new(),
         }
     }
 }
@@ -33,7 +34,7 @@ pub fn get_file_respond(path: PathBuf) -> String {
 
     let mut respond = FileRespond::new();
     respond.path = path.to_str().unwrap_or("").to_string();
-    
+
     for entry in entries {
         if let Ok(entry) = entry {
             if let Ok(file_type) = entry.file_type() {
@@ -48,8 +49,10 @@ pub fn get_file_respond(path: PathBuf) -> String {
         }
     }
 
-    serde_json::to_string(&respond).unwrap_or(json!({
+    serde_json::to_string(&respond).unwrap_or(
+        json!({
                 "action": "sendError",
                 "message": "Cannot parse content"
-            }).to_string())
+            }).to_string(),
+    )
 }
