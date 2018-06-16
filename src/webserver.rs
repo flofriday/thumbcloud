@@ -1,8 +1,12 @@
-use actix::*;
-use actix_web::fs::NamedFile;
-use actix_web::http::{Method};
-use actix_web::*;
 use std::path::PathBuf;
+
+use actix::*;
+use actix_web::*;
+use actix_web::fs::{NamedFile, StaticFiles};
+use actix_web::http::header::*;
+use actix_web::dev::Handler;
+
+use futures::future::Future;
 
 use decoder;
 
@@ -22,16 +26,6 @@ fn system(_req: HttpRequest) -> Result<NamedFile> {
     println!("Visiting system");
     let path = PathBuf::from("./static/html/system.html");
     Ok(NamedFile::open(path)?)
-}
-
-fn download(req: HttpRequest) -> HttpResponse {
-
-    HttpResponse::Ok()
-        .content_type("test/plain")
-        .body(format!(
-                "Hello {}!",
-                req.match_info().get("file").unwrap()
-        ))
 }
 
 struct Ws;
@@ -56,13 +50,18 @@ pub fn run() {
 
     server::new(|| {
         App::new()
-            .resource("/about", |r| r.f(about))
+            //.resource("/about", |r| r.f(about))
+            .handler("/about", |r| about(r))
             .resource("/system", |r| r.f(system))
-            .resource("/download/{file}", |r| r.method(Method::GET).f(download))
             .resource("/ws/", |r| r.f(|req| ws::start(req, Ws)))
+            .handler("/download", |req: HttpRequest| 
+                     StaticFiles::new("./").handle(req).map(|ok| ok.map(|mut response| {
+                         response.headers_mut().insert(CONTENT_DISPOSITION, "attachment".parse().unwrap());
+                         response
+                     }).responder()))
             .handler(
                 "/",
-                fs::StaticFiles::new("./static/").default_handler(index),
+                StaticFiles::new("./static/").default_handler(index),
             )
     }).bind(addr)
         .expect(format!("Can not start server on: {}", addr).as_str())

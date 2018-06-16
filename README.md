@@ -16,7 +16,7 @@ Warning: Windows and macOS might warn you because the binaries are not singed. F
 - [X] Viewing files in the webbrowser
 
 ### v0.0.2
-- [ ] Download files from the webbrowser
+- [X] Download files from the webbrowser
 - [ ] "fancy" aka useable Web UI
 - [ ] About page
 - [ ] Only allow access to one directory
