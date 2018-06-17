@@ -7,6 +7,7 @@
 		<!-- CSS Dependencies -->
 		<link rel="stylesheet" href="./../css/bootstrap.min.css">
         <!--<link rel="stylesheet" href="./../css/shards.patched.min.css">-->
+		<link rel="stylesheet" href="./../css/fontawesome-all.min.css">
 		<link rel="stylesheet" href="./../css/index.css">
 
 	</head>
@@ -40,14 +41,14 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col">
+				<div class="col-sm">
 					<div id="file-card" class="card">
 						<table class="table table-borderless table-striped table-sm">
 							<thead>
 								<tr>
-									<th scope="col">Name</th>
-									<th scope="col">Size</th>
-									<th scope="col-6"></th>
+									<th  scope="col">Name</th>
+									<th class="col-3" scope="col">Size</th>
+									<th class="col-1" scope="col"></th>
 								</tr>
 							</thead>
 							<tbody id="content">
@@ -55,9 +56,12 @@
 						</table>
 					</div>
 				</div>
-				<div class="col-md-auto">
+				<div class="col-sm-auto">
 					<div class="row">
-						<button type="button" class="btn btn-primary">Upload</button>
+						<button type="button" class="btn btn-primary">
+                            <i class="fas fa-upload"></i>
+                            Upload
+                        </button>
 					</div>
 					<div class="row">
                         <!--<button type="button" class="btn btn-outline-primary">New Folder</button>-->

@@ -81,14 +81,16 @@ function renderFiles(path, folders, files) {
 
     for (i = 0; i < folders.length; i++) {
         var name = folders[i];
-        var nameHTML = '<a href="#' + path + name + '" >' + name + "/</a><br>";
+        var nameHTML = '<i style="color: #007bff" class="fas fa-folder"></i>';
+        nameHTML += ' <a href="#' + path + name + '" >' + name + "/</a>";
         output += renderRow(nameHTML, '', '');
     }
 
     for (i = 0; i < files.length; i++) {
-        var nameHTML = files[i] + "<br>"; 
+        var nameHTML = '<i style="color: #007bff" class="far fa-file"></i>';
+        nameHTML += ' ' + files[i]; 
         var downloadHref = path + files[i];
-        var downloadLink = '<a target=”_blank” href="download/' + downloadHref + '">download</a>';
+        var downloadLink = '<a target=”_blank” href="download/' + downloadHref + '"><i class="fas fa-download"></i></a>';
         output += renderRow(nameHTML, '', downloadLink);
     }
 
