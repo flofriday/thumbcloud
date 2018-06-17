@@ -1,6 +1,6 @@
+use serde_json;
 use std::fs;
 use std::path::PathBuf;
-use serde_json;
 
 #[derive(Serialize, Deserialize)]
 struct FileRespond {

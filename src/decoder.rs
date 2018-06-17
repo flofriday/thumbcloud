@@ -1,7 +1,8 @@
-use std::path::PathBuf;
-use files;
 use serde_json;
 use serde_json::Value;
+use std::path::PathBuf;
+
+use files;
 
 pub fn decode(input: String) -> String {
     let data: Value = serde_json::from_str(input.as_str()).unwrap();

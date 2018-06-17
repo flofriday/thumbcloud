@@ -1,12 +1,10 @@
-use std::path::PathBuf;
-
 use actix::*;
 use actix_web::*;
 use actix_web::fs::{NamedFile, StaticFiles};
 use actix_web::http::header::*;
 use actix_web::dev::Handler;
-
 use futures::future::Future;
+use std::path::PathBuf;
 
 use decoder;
 
