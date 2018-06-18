@@ -77,7 +77,7 @@ function renderFiles(path, folders, files) {
 
     // Check if there are even elements in that folder
     if (folders.length == 0 && files.length == 0) {
-        output += renderRow('<i>this folder is empty</i>', '');
+        output += renderRow('<i>this folder is empty</i>', '', '');
     }
 
     // Render folders
