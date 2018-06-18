@@ -16,6 +16,7 @@ conn.onmessage = function(e) {
 
 conn.onclose = function() {
     console.log('Disconnected.');
+    displayError('Disconnected','Lost connection to the server.');
     conn = null;
 };
 
@@ -79,13 +80,15 @@ function renderFiles(path, folders, files) {
         output += renderRow('<i>this folder is empty</i>', '');
     }
 
+    // Render folders
     for (i = 0; i < folders.length; i++) {
         var name = folders[i];
         var nameHTML = '<i style="color: #007bff" class="fas fa-folder"></i>';
-        nameHTML += ' <a href="#' + path + name + '" >' + name + "/</a>";
+        nameHTML += ' <a href="#' + path + name + '" >' + name + "</a>";
         output += renderRow(nameHTML, '', '');
     }
 
+    // Render files
     for (i = 0; i < files.length; i++) {
         var nameHTML = '<i style="color: #007bff" class="far fa-file"></i>';
         nameHTML += ' ' + files[i]; 
@@ -102,4 +105,9 @@ function renderRow(name, size, download) {
     return out;
 }
 
+function displayError(header, message) {
+    $('#errorModalLabel').text(header);
+    $('#errorModalContent').text(message);
+    $('#errorModal').modal('show');
+}
 

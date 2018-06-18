@@ -25,7 +25,7 @@ Feel free ignore those warnings.
 
 ### v0.0.2
 - [X] Download files from the webbrowser
-- [ ] "fancy" aka useable Web UI
+- [X] "fancy" aka useable Web UI
 - [ ] Show filesize
 - [ ] About page
 - [ ] Only allow access to one directory
