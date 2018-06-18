@@ -1,1 +1,58 @@
-about.html
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Thumbcloud</title>
+
+		<!-- CSS Dependencies -->
+		<link rel="stylesheet" href="./../css/bootstrap.min.css">
+		<link rel="stylesheet" href="./../css/fontawesome-all.min.css">
+        <!--<link rel="stylesheet" href="./../css/about.css">-->
+
+	</head>
+	<body>
+
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+			<div class="container">
+				<a class="navbar-brand" href="">
+                    <!--<img src="./../img/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
+					Thumbcloud
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav">
+						<a class="nav-item nav-link" href="/">Files<span class="sr-only">(current)</span></a>
+						<a class="nav-item nav-link" href="system">System</a>
+						<a class="nav-item nav-link active" href="about">About</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+		
+		<!-- Page content -->
+        <!-- TODO: Request the information form the server instead of hardcoding it -->
+		<div class="container">
+                <div class="card">
+                    <h4 class="card-header">About Thumbcloud</h4>
+                    <div class="card-body">
+                        <p class="card-text">
+                        Version: 0.0.2<br>
+                        Author: <a href="https://www.github.com/flofriday">flofriday</a><br>
+                        License: <a href="https://github.com/flofriday/thumbcloud/blob/master/LICENSE">MIT</a><br>
+                        Github: <a href="https://github.com/flofriday/thumbcloud">flofriday/thumbcloud</a><br><br>
+                        Found a bug, or just want to request a feature? Feel free to write a <a href="https://github.com/flofriday/thumbcloud/issues/new">issue</a>.<br>
+                        </p>
+                        <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
+                    </div>
+			</div>
+		</div>
+
+
+		<script src="./../js/jquery-3.2.1.slim.min.js"></script>
+		<script src="./../js/bootstrap.min.js"></script>
+		<script src="./../js/index.js"></script>
+	</body>
+</html>

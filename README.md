@@ -27,7 +27,7 @@ Feel free ignore those warnings.
 - [X] Download files from the webbrowser
 - [X] "fancy" aka useable Web UI
 - [ ] Show filesize
-- [ ] About page
+- [X] About page
 - [ ] Only allow access to one directory
 - [ ] Parse commandline arguments
 
@@ -36,6 +36,7 @@ Feel free ignore those warnings.
 - [ ] Download folders as .zip
 - [ ] View file content without downloading
 - [ ] System page
+- [ ] 404 page
 
 ### after v0.0.3
 - [ ] GUI for server
