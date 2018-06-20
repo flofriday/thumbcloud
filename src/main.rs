@@ -1,5 +1,7 @@
 extern crate actix;
 extern crate actix_web;
+
+#[macro_use]
 extern crate clap;
 extern crate futures;
 extern crate serde;

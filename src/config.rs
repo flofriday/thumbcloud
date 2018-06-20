@@ -1,9 +1,8 @@
-use clap::App;
+use clap::{App, AppSettings};
 
 pub fn parse_arguments() {
-    App::new(env!("CARGO_PKG_NAME"))
-        .version(env!("CARGO_PKG_VERSION"))
-        .about(env!("CARGO_PKG_DESCRIPTION"))
-        .author(env!("CARGO_PKG_AUTHORS"))
-        .get_matches(); 
+    app_from_crate!()
+        .usage(format!("{} [FLAGS/OPTIONS]", env!("CARGO_PKG_NAME")).as_str())
+        .setting(AppSettings::ColorAlways)
+        .get_matches();
 }
