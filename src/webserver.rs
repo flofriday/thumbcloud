@@ -52,15 +52,17 @@ pub fn run(_config: Config) {
             .resource("/about", |r| r.f(about))
             .resource("/system", |r| r.f(system))
             .resource("/ws/", |r| r.f(|req| ws::start(req, Ws)))
-            .handler("/download", |req: HttpRequest| 
-                     StaticFiles::new("./").handle(req).map(|ok| ok.map(|mut response| {
-                         response.headers_mut().insert(CONTENT_DISPOSITION, "attachment".parse().unwrap());
-                         response
-                     }).responder()))
-            .handler(
-                "/",
-                StaticFiles::new("./static/").default_handler(index),
-            )
+            .handler("/download", |req: HttpRequest| {
+                StaticFiles::new("./").handle(req).map(|ok| {
+                    ok.map(|mut response| {
+                        response
+                            .headers_mut()
+                            .insert(CONTENT_DISPOSITION, "attachment".parse().unwrap());
+                        response
+                    }).responder()
+                })
+            })
+            .handler("/", StaticFiles::new("./static/").default_handler(index))
     }).bind(addr)
         .expect(format!("Can not start server on: {}", addr).as_str())
         .run();
