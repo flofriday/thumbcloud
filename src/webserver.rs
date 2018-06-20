@@ -6,6 +6,7 @@ use actix_web::dev::Handler;
 use futures::future::Future;
 use std::path::PathBuf;
 
+use config::Config;
 use decoder;
 
 fn index(_req: HttpRequest) -> Result<NamedFile> {
@@ -43,13 +44,12 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for Ws {
     }
 }
 
-pub fn run() {
+pub fn run(_config: Config) {
     let addr = "127.0.0.1:80";
 
     server::new(|| {
         App::new()
-            //.resource("/about", |r| r.f(about))
-            .handler("/about", |r| about(r))
+            .resource("/about", |r| r.f(about))
             .resource("/system", |r| r.f(system))
             .resource("/ws/", |r| r.f(|req| ws::start(req, Ws)))
             .handler("/download", |req: HttpRequest| 

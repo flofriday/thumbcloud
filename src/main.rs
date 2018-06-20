@@ -18,6 +18,6 @@ pub mod files;
 pub mod webserver;
 
 fn main() {
-    config::parse_arguments();
-    webserver::run();
+    let config = config::parse_arguments();
+    webserver::run(config);
 }
