@@ -99,7 +99,7 @@ function renderFiles(path, folders, files) {
         var nameHTML = '<i style="color: #007bff" class="far fa-file"></i>';
         nameHTML += ' ' + files[i].name; 
         var size = files[i].size;
-        var downloadHref = path + files[i];
+        var downloadHref = path + files[i].name;
         var downloadLink = '<a target=”_blank” href="download/' + downloadHref + '"><i class="fas fa-download"></i></a>';
         output += renderRow(nameHTML, size, downloadLink);
     }
