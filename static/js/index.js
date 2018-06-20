@@ -7,7 +7,12 @@ var conn = new WebSocket(wsUri);
 
 conn.onopen = function(e) {
     console.log('Connected.');
-    requestFiles(".");
+    if (window.location.hash) {
+        var path = window.location.hash.split("#").pop();
+        requestFiles(path);
+    } else{
+        requestFiles(".");
+    }
 }
 
 conn.onmessage = function(e) {
@@ -21,9 +26,8 @@ conn.onclose = function() {
 };
 
 window.onhashchange = function(e) {
-    path = str = e.newURL.split("#").pop();
+    var path = e.newURL.split("#").pop();
     requestFiles(path);
-    console.log(path);
 }
 
 function requestFiles(path) {
@@ -45,6 +49,8 @@ function decode(input) {
 
     } else if (obj.action == 'sendError') {
         console.log('Got Error from Server:' + obj.message);
+        displayError('Internal Server Error', obj.message);
+
     } else {
         console.log('Got invalid "' + obj.action + '" as action from sever')
     }
@@ -83,8 +89,8 @@ function renderFiles(path, folders, files) {
     // Render folders
     for (i = 0; i < folders.length; i++) {
         var name = folders[i].name;
-        var nameHTML = '<i style="color: #007bff" class="fas fa-folder"></i>';
-        nameHTML += ' <a href="#' + path + name + '" >' + name + "</a>";
+        var icon = '<i style="color: #007bff" class="fas fa-folder"></i> ';
+        var nameHTML = '<a href="#' + path + name + '" >' + icon + name + "</a>";
         output += renderRow(nameHTML, '', '');
     }
 
