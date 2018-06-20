@@ -4,6 +4,7 @@ extern crate actix_web;
 #[macro_use]
 extern crate clap;
 extern crate futures;
+extern crate pretty_bytes;
 extern crate serde;
 
 #[macro_use]

@@ -26,7 +26,7 @@ Feel free ignore those warnings.
 ### v0.0.2
 - [X] Download files from the webbrowser
 - [X] "fancy" aka useable Web UI
-- [ ] Show filesize
+- [X] Show filesize
 - [X] About page
 - [ ] Only allow access to one directory
 - [ ] Parse commandline arguments

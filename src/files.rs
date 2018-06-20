@@ -1,13 +1,36 @@
+use pretty_bytes::converter::convert;
 use serde_json;
 use std::fs;
 use std::path::PathBuf;
 
 #[derive(Serialize, Deserialize)]
+struct FileItem {
+    name: String,
+    size: String,
+}
+
+impl FileItem {
+    fn from(file_name: String, bytes: u64) -> FileItem {
+        FileItem {
+            name: file_name,
+            size: convert(bytes as f64).replace(" B", " bytes"),
+        }
+    }
+
+    fn from_name(file_name: String) -> FileItem {
+        FileItem {
+            name: file_name,
+            size: String::new(),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
 struct FileRespond {
     action: String,
     path: String,
-    folders: Vec<String>,
-    files: Vec<String>,
+    folders: Vec<FileItem>,
+    files: Vec<FileItem>,
 }
 
 impl FileRespond {
@@ -40,9 +63,17 @@ pub fn get_file_respond(path: PathBuf) -> String {
             if let Ok(file_type) = entry.file_type() {
                 if let Ok(file_name) = entry.file_name().into_string() {
                     if file_type.is_dir() {
-                        respond.folders.push(file_name);
+                        respond.folders.push(FileItem::from_name(file_name));
                     } else {
-                        respond.files.push(file_name);
+                        let item: FileItem;
+
+                        if let Ok(meta) = entry.metadata() {
+                            item = FileItem::from(file_name, meta.len())
+                        } else {
+                            item = FileItem::from_name(file_name);
+                        }
+
+                        respond.files.push(item);
                     }
                 }
             }
