@@ -27,6 +27,24 @@ fn system(_req: HttpRequest) -> Result<NamedFile> {
     Ok(NamedFile::open(path)?)
 }
 
+fn get_bind_error(addr: &String) -> String {
+    format!(
+        "\n
+            --------------------------------------------------------------------
+            Can not bind server to: {}
+            
+            Possible reasons for this error are:
+            1. The given IP address is invalid or does not belong to your 
+               computer
+            2. The given Port number is already used by another programm
+            3. The IP and Port number are valid however, your OS needs root 
+               permission to use it, in which case `sudo thumbcloud` should work
+            --------------------------------------------------------------------
+            \n",
+        addr
+    )
+}
+
 struct Ws;
 
 impl Actor for Ws {
@@ -45,7 +63,7 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for Ws {
 }
 
 pub fn run(_config: Config) {
-    let addr = "127.0.0.1:80";
+    let addr = String::from("127.0.0.1:8080");
 
     server::new(|| {
         App::new()
@@ -63,7 +81,7 @@ pub fn run(_config: Config) {
                 })
             })
             .handler("/", StaticFiles::new("./static/").default_handler(index))
-    }).bind(addr)
-        .expect(format!("Can not start server on: {}", addr).as_str())
+    }).bind(&addr)
+        .expect(get_bind_error(&addr).as_str())
         .run();
 }
