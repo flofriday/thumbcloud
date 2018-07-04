@@ -1,7 +1,7 @@
 var pathElement = document.getElementById("path")
 var contentElement = document.getElementById("content")
 
-var wsUri = 'ws:' + window.location.host + ':80/ws/';
+var wsUri = 'ws:' + window.location.host + '/ws/';
 console.log('Trying to connect to: ' + wsUri);
 var conn = new WebSocket(wsUri);
 
