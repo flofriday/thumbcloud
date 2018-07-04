@@ -30,6 +30,21 @@ window.onhashchange = function(e) {
     requestFiles(path);
 }
 
+// This function sorts an array of objects
+// Usage: data.sort(sort_by('key', true, parseInt));
+var sort_by = function(field, reverse, primer){
+
+   var key = primer ? 
+       function(x) {return primer(x[field])} : 
+       function(x) {return x[field]};
+
+   reverse = !reverse ? 1 : -1;
+
+   return function (a, b) {
+       return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+     } 
+}
+
 function requestFiles(path) {
     msg = {
         "action": "requestFilelist",
@@ -37,7 +52,6 @@ function requestFiles(path) {
     };
 
     conn.send(JSON.stringify(msg));
-    console.log(JSON.stringify(msg));
 }
 
 function decode(input) {
@@ -57,11 +71,15 @@ function decode(input) {
 }
 
 function renderFiles(path, folders, files) {
+    // Sort the folder and file list
+    folders.sort(sort_by('name', false, function(a){return a.toUpperCase()}));
+    files.sort(sort_by('name', false, function(a){return a.toUpperCase()}));
+
+
     // Create the path navigation element
     if (path != '') {
         pathOutput = '';
         pathList = path.split("/");
-        console.log(pathList);
 
         for (i = 0; i < pathList.length; i++) {
             var fullPath  = ""; 
