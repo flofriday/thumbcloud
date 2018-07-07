@@ -62,8 +62,8 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for Ws {
     }
 }
 
-pub fn run(_config: Config) {
-    let addr = String::from("127.0.0.1:8080");
+pub fn run(config: Config) {
+    println!("Started webserver at: {}", config.addr);
 
     server::new(|| {
         App::new()
@@ -81,7 +81,7 @@ pub fn run(_config: Config) {
                 })
             })
             .handler("/", StaticFiles::new("./static/").default_handler(index))
-    }).bind(&addr)
-        .expect(get_bind_error(&addr).as_str())
+    }).bind(&config.addr)
+        .expect(get_bind_error(&config.addr).as_str())
         .run();
 }

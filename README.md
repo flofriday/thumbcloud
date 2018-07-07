@@ -17,7 +17,7 @@ Feel free ignore those warnings.
 1. Open a terminal in the directory with the executable
 2. Windows: `.\thumbcloud.exe`
    Unix: `./thumbcloud` or if it fails because of a permission `sudo ./thumbcoud`
-3. Open a Webbrowser and type `localhost` in the addressbar
+3. Open a Webbrowser and type `localhost:8080` in the addressbar
 
 ## Todo List 
 ### v0.0.1
@@ -29,7 +29,7 @@ Feel free ignore those warnings.
 - [X] Show filesize
 - [X] About page
 - [ ] Only allow access to one directory
-- [ ] Parse commandline arguments
+- [X] Parse commandline arguments
 
 ### v0.0.3
 - [ ] Upload files
