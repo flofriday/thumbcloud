@@ -28,7 +28,7 @@ Feel free ignore those warnings.
 - [X] "fancy" aka useable Web UI
 - [X] Show filesize
 - [X] About page
-- [ ] Only allow access to one directory
+- [ ] Let the user selecte the shared folder
 - [X] Parse commandline arguments
 
 ### v0.0.3
