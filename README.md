@@ -11,12 +11,13 @@ Feel free ignore those warnings.
 ### Build from source
 1. [Install rust](https://doc.rust-lang.org/book/second-edition/ch01-01-installation.html)
 2. [Download the repository](https://github.com/flofriday/thumbcloud/archive/master.zip)
-3. Unzip the compressed file and run `cargo run`
+3. Unzip the compressed file and run `cargo build --release`
+4. Run the executable with `./target/release/thumbcloud $HOME` (on Windows: `.\target\release\thumbcloud.exe %HOMEPATH%` )
 
 ## Usage
 1. Open a terminal in the directory with the executable
-2. Windows: `.\thumbcloud.exe`
-   Unix: `./thumbcloud` or if it fails because of a permission `sudo ./thumbcoud`
+2. Windows: `.\thumbcloud.exe %HOMEPATH%`
+   Unix: `./thumbcloud $HOME` (if it fails because of a permission `sudo ./thumbcoud $HOME`)
 3. Open a Webbrowser and type `localhost:8080` in the addressbar
 
 ## Todo List 
