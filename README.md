@@ -35,12 +35,13 @@ Feel free ignore those warnings.
 ### v0.0.3
 - [ ] Upload files
 - [ ] File icons dependent on filetype
-- [ ] Download folders as .zip
-- [ ] View file content without downloading
+- [ ] Template engine for about and system page
 - [ ] System page
 - [ ] 404 page
 
 ### after v0.0.3
+- [ ] Download folders as .zip
+- [ ] View file content without downloading
 - [ ] GUI for server
 - [ ] Add Logo
 - [ ] Product Website
