@@ -4,15 +4,14 @@ use std::path::PathBuf;
 // TODO: the addres shouldn't be a String
 pub struct Config {
     pub path: PathBuf,
-    pub addr: String
+    pub addr: String,
 }
 
 impl Config {
     fn from_matches(matches: ArgMatches) -> Config {
         Config {
             path: PathBuf::from(matches.value_of("INPUT").unwrap()),
-            addr: String::from(
-                matches.value_of("address").unwrap_or("127.0.0.1:8080"))
+            addr: String::from(matches.value_of("address").unwrap_or("127.0.0.1:8080")),
         }
     }
 }
@@ -49,8 +48,8 @@ pub fn parse_arguments() -> Config {
                 .help("Sets the IP address and port the server will launch")
                 .short("a")
                 .long("addr")
-                .takes_value(true)
-            )
+                .takes_value(true),
+        )
         .setting(AppSettings::ColorAlways)
         .get_matches();
 

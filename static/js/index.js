@@ -11,7 +11,7 @@ conn.onopen = function(e) {
         var path = window.location.hash.split("#").pop();
         requestFiles(path);
     } else{
-        requestFiles(".");
+        requestFiles("");
     }
 }
 
@@ -56,7 +56,8 @@ function requestFiles(path) {
 
 function decode(input) {
     obj = JSON.parse(input)
-    path = obj.path + "/";
+    path = obj.path 
+    if (path != '') {path += '/'}
 
     if (obj.action == 'sendFilelist') {
         renderFiles(path, obj.folders, obj.files);
@@ -75,26 +76,24 @@ function renderFiles(path, folders, files) {
     folders.sort(sort_by('name', false, function(a){return a.toUpperCase()}));
     files.sort(sort_by('name', false, function(a){return a.toUpperCase()}));
 
-
     // Create the path navigation element
-    if (path != '') {
-        pathOutput = '';
-        pathList = path.split("/");
+    pathOutput = '<a href="#" style="text-decoration: none" class="fas fa-home"></a> / ';
+    pathList = path.split("/");
+    pathList.pop()
 
-        for (i = 0; i < pathList.length; i++) {
-            var fullPath  = ""; 
-            for (j = 0; j <= i; j++) {
-                fullPath += pathList[j];
-                if (j != i) {
-                    fullPath += '/';
-                }
+    for (i = 0; i < pathList.length; i++) {
+        var fullPath  = ""; 
+        for (j = 0; j <= i; j++) {
+            fullPath += pathList[j];
+            if (j != i) {
+                fullPath += '/';
             }
-            pathOutput += '<a href="#' + fullPath + '">' + pathList[i] + '</a> / ';
         }
+        pathOutput += '<a href="#' + fullPath + '">' + pathList[i] + '</a> / ';
+    }
 
-        pathOutput = pathOutput.substring(0, pathOutput.length - 2);
-        pathElement.innerHTML = '<h5>' + pathOutput + '</h5>';
-    } 
+    pathOutput = pathOutput.substring(0, pathOutput.length - 2);
+    pathElement.innerHTML = '<h5>' + pathOutput + '</h5>';
 
     // Create the file and folder list
     var output = '';
@@ -114,7 +113,7 @@ function renderFiles(path, folders, files) {
 
     // Render files
     for (i = 0; i < files.length; i++) {
-        var nameHTML = '<i style="color: #007bff" class="far fa-file"></i>';
+        var nameHTML = '<i style="color: #007bff" class="far fa-file-alt"></i>';
         nameHTML += ' ' + files[i].name; 
         var size = files[i].size;
         var downloadHref = path + files[i].name;

@@ -44,19 +44,20 @@ impl FileRespond {
     }
 }
 
-pub fn get_file_respond(path: PathBuf) -> String {
+pub fn get_file_respond(path: PathBuf, path_name: String) -> String {
     let entries = match fs::read_dir(&path) {
         Ok(e) => e,
         Err(_) => {
             return json!({
                 "action": "sendError",
-                "message": format!("Cannot read the given path: {:?}", path)
+                "message": format!("Cannot read the given path: {:?}", path_name)
             }).to_string();
         }
     };
 
     let mut respond = FileRespond::new();
-    respond.path = path.to_str().unwrap_or("").to_string();
+    //respond.path = path.to_str().unwrap_or("").to_string();
+    respond.path = path_name;
 
     for entry in entries {
         if let Ok(entry) = entry {

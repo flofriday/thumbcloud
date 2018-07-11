@@ -29,11 +29,12 @@ Feel free ignore those warnings.
 - [X] "fancy" aka useable Web UI
 - [X] Show filesize
 - [X] About page
-- [ ] Let the user selecte the shared folder
+- [X] Let the user selecte the shared folder
 - [X] Parse commandline arguments
 
 ### v0.0.3
 - [ ] Upload files
+- [ ] File icons dependent on filetype
 - [ ] Download folders as .zip
 - [ ] View file content without downloading
 - [ ] System page

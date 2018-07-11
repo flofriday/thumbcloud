@@ -4,19 +4,23 @@ use std::path::PathBuf;
 
 use files;
 
-pub fn decode(input: String) -> String {
+// TODO: Security: prevent path traversal
+pub fn decode(input: String, path_base: &PathBuf) -> String {
     let data: Value = serde_json::from_str(input.as_str()).unwrap();
 
     if data["action"] == "requestFilelist" {
-        let mut path = data["path"].to_string();
+        let mut path_end = data["path"].to_string();
 
         // From the to_string methode the string starts and ends with a double-
         // qoute. Theses two lines are here to remove them.
-        path.remove(0);
-        path.pop();
+        path_end.remove(0);
+        path_end.pop();
 
-        println!("Open path: {}", path); //TODO: remove later
-        return files::get_file_respond(PathBuf::from(path.as_str()));
+        let mut path: PathBuf = path_base.to_owned();
+        path.push(&path_end);
+
+        println!("Open path: {:?}", path); //TODO: remove later
+        return files::get_file_respond(path, path_end);
     } else {
         return json!({
                 "action": "sendError",
