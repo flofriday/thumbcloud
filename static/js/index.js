@@ -1,5 +1,7 @@
 var pathElement = document.getElementById("path")
 var contentElement = document.getElementById("content")
+var newFolderElement = document.getElementById("new-folder")
+var uploadElement = document.getElementById("upload")
 
 var wsUri = 'ws:' + window.location.host + '/ws/';
 console.log('Trying to connect to: ' + wsUri);
@@ -30,6 +32,16 @@ window.onhashchange = function(e) {
     requestFiles(path);
 }
 
+newFolderElement.onclick = function(e) {
+    e.preventDefault();
+    displayError('Not supported', 'This feature is not implemented yet, ' + 
+    'but it will be in the next version.')
+}
+
+uploadElement.onclick = function(e) {
+    displayError('Not supported', 'This feature is not implemented yet, ' + 
+    'but it will be in the next version.')
+}
 // This function sorts an array of objects
 // Usage: data.sort(sort_by('key', true, parseInt));
 var sort_by = function(field, reverse, primer){
