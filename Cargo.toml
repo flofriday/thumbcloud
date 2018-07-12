@@ -1,6 +1,6 @@
 [package]
 name = "thumbcloud"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["flofriday <flohacksfriday@gmail.com>"]
 description = "thumbcloud is a drop-in software replacement for your USB thumbdrive."
 readme = "README.md"

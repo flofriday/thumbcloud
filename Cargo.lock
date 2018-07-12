@@ -1180,7 +1180,7 @@ dependencies = [
 
 [[package]]
 name = "thumbcloud"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "actix 0.5.8 (registry+https://github.com/rust-lang/crates.io-index)",
  "actix-web 0.6.15 (registry+https://github.com/rust-lang/crates.io-index)",
