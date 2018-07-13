@@ -16,8 +16,10 @@ Feel free ignore those warnings.
 
 ## Usage
 1. Open a terminal in the directory with the executable
-2. Windows: `.\thumbcloud.exe %HOMEPATH%`
-   Unix: `./thumbcloud $HOME` (if it fails because of a permission `sudo ./thumbcoud $HOME`)
+2. Windows CMD: `.\thumbcloud.exe %HOMEPATH%`<br>
+   Windows PowerShell: `.\thumbcloud.exe $HOME`<br>
+   Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME`<br> 
+   (if it fails because of a permission `sudo ./thumbcoud $HOME`)
 3. Open a Webbrowser and type `localhost:8080` in the addressbar
 
 ## Todo List 
