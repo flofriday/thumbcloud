@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <!--<img src="./../img/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
+            {{ app_name }}
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+
+                <a class="nav-item nav-link {% if page == "index" %} active {% endif %}" href="/">Files</a>
+                <a class="nav-item nav-link {% if page == "system" %} active {% endif %}" href="system">System</a>
+                <a class="nav-item nav-link {% if page == "about" %} active {% endif %}" href="about">About</a>
+
+            </div>
+        </div>
+    </div>
+</nav>
+

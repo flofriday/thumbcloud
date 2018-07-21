@@ -1,6 +1,6 @@
 use actix::*;
 use actix_web::dev::Handler;
-use actix_web::fs::{NamedFile, StaticFiles};
+use actix_web::fs::StaticFiles;
 use actix_web::http::header::*;
 use actix_web::*;
 use askama::Template;
@@ -12,27 +12,48 @@ use config::Config;
 use decoder;
 
 struct AppState {
+    app_name: String,
     config: config::Config,
 }
 
 impl AppState {
     fn new() -> AppState {
         AppState {
+            app_name: {
+                // Capitalize the first character of the crate name
+                let s1 = env!("CARGO_PKG_NAME");
+                let mut v: Vec<char> = s1.chars().collect();
+                v[0] = v[0].to_uppercase().nth(0).unwrap();
+                v.into_iter().collect()
+            },
             config: config::parse_arguments(),
         }
     }
 }
 
-fn index(_req: HttpRequest<AppState>) -> Result<NamedFile> {
+#[derive(Template)]
+#[template(path = "index.html")]
+struct IndexTemplate<'a> {
+    app_name: &'a str,
+    page: &'a str,
+}
+
+fn index(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visiting index");
-    let path = PathBuf::from("./static/html/index.html");
-    Ok(NamedFile::open(path)?)
+
+    let content = IndexTemplate {
+        app_name: &req.state().app_name,
+        page: "index",
+    }.render()
+        .unwrap();
+    Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
 #[derive(Template)]
 #[template(path = "about.html")]
 struct AboutTemplate<'a> {
-    app_name: String,
+    app_name: &'a str,
+    page: &'a str,
     description: &'a str,
     version: &'a str,
     license: &'a str,
@@ -42,17 +63,12 @@ struct AboutTemplate<'a> {
 
 // TODO: This code shouldn't be that hardcoded. The right way would be to load
 // and parse the Cargo.toml file at compile-time.
-fn about(_req: HttpRequest<AppState>) -> Result<HttpResponse> {
+fn about(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visiting about");
 
     let content = AboutTemplate {
-        app_name: {
-            // Capitalize the first character of the name
-            let s1 = env!("CARGO_PKG_NAME");
-            let mut v: Vec<char> = s1.chars().collect();
-            v[0] = v[0].to_uppercase().nth(0).unwrap();
-            v.into_iter().collect()
-        },
+        app_name: &req.state().app_name,
+        page: "about",
         description: env!("CARGO_PKG_DESCRIPTION"),
         version: env!("CARGO_PKG_VERSION"),
         license: "MIT",
@@ -65,15 +81,17 @@ fn about(_req: HttpRequest<AppState>) -> Result<HttpResponse> {
 
 #[derive(Template)]
 #[template(path = "system.html")]
-struct SystemTemplate {
-    //name: &'a str,
+struct SystemTemplate<'a> {
+    app_name: &'a str,
+    page: &'a str,
 }
 
-fn system(_req: HttpRequest<AppState>) -> Result<HttpResponse> {
+fn system(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visiting system");
 
     let content = SystemTemplate {
-        //name: "hello"
+        app_name: &req.state().app_name,
+        page: "system",
     }.render()
         .unwrap();
     Ok(HttpResponse::Ok().content_type("text/html").body(content))

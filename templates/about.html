@@ -1,57 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<title>Thumbcloud</title>
+    <head>
+        <meta charset="utf-8" />
+        <title>Thumbcloud</title>
 
-		<!-- CSS Dependencies -->
-		<link rel="stylesheet" href="./../css/bootstrap.min.css">
-		<link rel="stylesheet" href="./../css/fontawesome-all.min.css">
-        <!--<link rel="stylesheet" href="./../css/about.css">-->
+        <!-- CSS Dependencies -->
+        <link rel="stylesheet" href="./../css/bootstrap.min.css">
+        <link rel="stylesheet" href="./../css/fontawesome-all.min.css">
 
-	</head>
-	<body>
+    </head>
+    <body>
 
-		<!-- Navbar -->
-		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-			<div class="container">
-				<a class="navbar-brand" href="">
-                    <!--<img src="./../img/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="">-->
-					Thumbcloud
-				</a>
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-					<div class="navbar-nav">
-						<a class="nav-item nav-link" href="/">Files<span class="sr-only">(current)</span></a>
-						<a class="nav-item nav-link" href="system">System</a>
-						<a class="nav-item nav-link active" href="about">About</a>
-					</div>
-				</div>
-			</div>
-		</nav>
-		
-		<!-- Page content -->
-		<div class="container">
-                <div class="card" style="margin-top: 30px;">
-                    <h4 class="card-header">About {{app_name}} </h4>
-                    <div class="card-body">
-                        <p class="card-text">
-                        {{ description }}.<br><br>
-                        Version: {{ version }}<br>
-                        Author: <a target=”_blank” href="https://www.github.com/flofriday">flofriday</a><br>
-                        License: <a target=”_blank” href="{{ repository }}/blob/master/LICENSE">{{ license }}</a><br>
-                        Github: <a target=”_blank” href="{{ repository }}">{{ repository_name }}</a><br><br>
-                        Found a bug, or just want to request a feature? <br>
-                        Feel free to write a <a target=”_blank” href="{{ repository }}/issues/new">issue</a>.<br>
-                        </p>
-                    </div>
-			</div>
-		</div>
+        <!-- Navbar -->
+        {% include "navbar.html" %}
+
+        <!-- Page content -->
+        <div class="container">
+            <div class="card" style="margin-top: 30px;">
+                <h4 class="card-header">About {{app_name}} </h4>
+                <div class="card-body">
+                    <p class="card-text">
+                    {{ description }}.<br><br>
+                    Version: {{ version }}<br>
+                    Author: <a target=”_blank” href="https://www.github.com/flofriday">flofriday</a><br>
+                    License: <a target=”_blank” href="{{ repository }}/blob/master/LICENSE">{{ license }}</a><br>
+                    Github: <a target=”_blank” href="{{ repository }}">{{ repository_name }}</a><br><br>
+                    Found a bug, or just want to request a feature? <br>
+                    Feel free to write a <a target=”_blank” href="{{ repository }}/issues/new">issue</a>.<br>
+                    </p>
+                </div>
+            </div>
+        </div>
 
 
-		<script src="./../js/jquery-3.2.1.slim.min.js"></script>
-		<script src="./../js/bootstrap.min.js"></script>
-	</body>
+        <script src="./../js/jquery-3.2.1.slim.min.js"></script>
+        <script src="./../js/bootstrap.min.js"></script>
+    </body>
 </html>
