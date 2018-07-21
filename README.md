@@ -37,7 +37,7 @@ Feel free ignore those warnings.
 ### v0.0.3
 - [ ] Upload files
 - [ ] File icons dependent on filetype
-- [ ] Template engine for about and system page
+- [X] Template engine for HTML files
 - [ ] System page
 - [ ] 404 page
 
