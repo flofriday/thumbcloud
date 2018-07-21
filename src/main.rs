@@ -2,6 +2,9 @@ extern crate actix;
 extern crate actix_web;
 
 #[macro_use]
+extern crate askama;
+
+#[macro_use]
 extern crate clap;
 extern crate futures;
 extern crate pretty_bytes;

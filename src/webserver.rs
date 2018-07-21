@@ -3,6 +3,7 @@ use actix_web::dev::Handler;
 use actix_web::fs::{NamedFile, StaticFiles};
 use actix_web::http::header::*;
 use actix_web::*;
+use askama::Template;
 use futures::future::Future;
 use std::path::PathBuf;
 
@@ -14,22 +15,68 @@ struct AppState {
     config: config::Config,
 }
 
+impl AppState {
+    fn new() -> AppState {
+        AppState {
+            config: config::parse_arguments(),
+        }
+    }
+}
+
 fn index(_req: HttpRequest<AppState>) -> Result<NamedFile> {
     println!("Visiting index");
     let path = PathBuf::from("./static/html/index.html");
     Ok(NamedFile::open(path)?)
 }
 
-fn about(_req: HttpRequest<AppState>) -> Result<NamedFile> {
-    println!("Visiting about");
-    let path = PathBuf::from("./static/html/about.html");
-    Ok(NamedFile::open(path)?)
+#[derive(Template)]
+#[template(path = "about.html")]
+struct AboutTemplate<'a> {
+    app_name: String,
+    description: &'a str,
+    version: &'a str,
+    license: &'a str,
+    repository: &'a str,
+    repository_name: &'a str,
 }
 
-fn system(_req: HttpRequest<AppState>) -> Result<NamedFile> {
+// TODO: This code shouldn't be that hardcoded. The right way would be to load
+// and parse the Cargo.toml file at compile-time.
+fn about(_req: HttpRequest<AppState>) -> Result<HttpResponse> {
+    println!("Visiting about");
+
+    let content = AboutTemplate {
+        app_name: {
+            // Capitalize the first character of the name
+            let s1 = env!("CARGO_PKG_NAME");
+            let mut v: Vec<char> = s1.chars().collect();
+            v[0] = v[0].to_uppercase().nth(0).unwrap();
+            v.into_iter().collect()
+        },
+        description: env!("CARGO_PKG_DESCRIPTION"),
+        version: env!("CARGO_PKG_VERSION"),
+        license: "MIT",
+        repository: env!("CARGO_PKG_HOMEPAGE"),
+        repository_name: "flofriday/thumbcloud",
+    }.render()
+        .unwrap();
+    Ok(HttpResponse::Ok().content_type("text/html").body(content))
+}
+
+#[derive(Template)]
+#[template(path = "system.html")]
+struct SystemTemplate {
+    //name: &'a str,
+}
+
+fn system(_req: HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visiting system");
-    let path = PathBuf::from("./static/html/system.html");
-    Ok(NamedFile::open(path)?)
+
+    let content = SystemTemplate {
+        //name: "hello"
+    }.render()
+        .unwrap();
+    Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
 fn ws_route(req: HttpRequest<AppState>) -> Result<HttpResponse, Error> {
@@ -37,6 +84,7 @@ fn ws_route(req: HttpRequest<AppState>) -> Result<HttpResponse, Error> {
     ws::start(req, WsSession { path: path })
 }
 
+// TODO: this should not be inside an panic but a standalone message
 fn get_bind_error(addr: &String) -> String {
     format!(
         "\n
@@ -80,10 +128,8 @@ pub fn run(config: Config) {
     // TODO: there should be no need to create the conf variable here, because
     // config already has the path
     server::new(move || {
-        //App::with_state(config::parse_arguments())
-        App::with_state(AppState {
-            config: config::parse_arguments(),
-        }).resource("/about", |r| r.f(about))
+        App::with_state(AppState::new())
+            .resource("/about", |r| r.f(about))
             .resource("/system", |r| r.f(system))
             .resource("/ws/", |r| r.route().f(ws_route))
             .handler("/download", move |req: HttpRequest<AppState>| {

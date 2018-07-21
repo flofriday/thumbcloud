@@ -2,17 +2,22 @@
 name = "thumbcloud"
 version = "0.0.3"
 authors = ["flofriday <flohacksfriday@gmail.com>"]
-description = "thumbcloud is a drop-in software replacement for your USB thumbdrive."
+description = "Thumbcloud is a file-sharing app to replace your USB thumbdrive"
 readme = "README.md"
 repository = "https://github.com/flofriday/thumbcloud.git"
+homepage = "https://github.com/flofriday/thumbcloud"
 license = "MIT"
 
 [dependencies]
 actix = "0.5"
 actix-web = "0.6"
+askama = "0.7"
 clap = "2.32"
 futures = "0.1.0"
 pretty-bytes = "0.2.2"
 serde = "1.0"
 serde_json = "1.0"
 serde_derive = "1.0"
+
+[build-dependencies]
+askama = "0.7"

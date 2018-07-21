@@ -33,19 +33,19 @@
 		</nav>
 		
 		<!-- Page content -->
-        <!-- TODO: Request the information form the server instead of hardcoding it -->
 		<div class="container">
-                <div class="card">
-                    <h4 class="card-header">About Thumbcloud</h4>
+                <div class="card" style="margin-top: 30px;">
+                    <h4 class="card-header">About {{app_name}} </h4>
                     <div class="card-body">
                         <p class="card-text">
-                        Version: 0.0.3<br>
-                        Author: <a href="https://www.github.com/flofriday">flofriday</a><br>
-                        License: <a href="https://github.com/flofriday/thumbcloud/blob/master/LICENSE">MIT</a><br>
-                        Github: <a href="https://github.com/flofriday/thumbcloud">flofriday/thumbcloud</a><br><br>
-                        Found a bug, or just want to request a feature? Feel free to write a <a href="https://github.com/flofriday/thumbcloud/issues/new">issue</a>.<br>
+                        {{ description }}.<br><br>
+                        Version: {{ version }}<br>
+                        Author: <a target=”_blank” href="https://www.github.com/flofriday">flofriday</a><br>
+                        License: <a target=”_blank” href="{{ repository }}/blob/master/LICENSE">{{ license }}</a><br>
+                        Github: <a target=”_blank” href="{{ repository }}">{{ repository_name }}</a><br><br>
+                        Found a bug, or just want to request a feature? <br>
+                        Feel free to write a <a target=”_blank” href="{{ repository }}/issues/new">issue</a>.<br>
                         </p>
-                        <!--<a href="#" class="btn btn-primary">Go somewhere</a>-->
                     </div>
 			</div>
 		</div>
@@ -53,6 +53,5 @@
 
 		<script src="./../js/jquery-3.2.1.slim.min.js"></script>
 		<script src="./../js/bootstrap.min.js"></script>
-		<script src="./../js/about.js"></script>
 	</body>
 </html>
