@@ -41,12 +41,15 @@ Feel free ignore those warnings.
 - [ ] System page
 - [ ] 404 page
 
-### after v0.0.3
-- [ ] Download folders as .zip
-- [ ] View file content without downloading
+### v0.1.0
+- [ ] Optimize for mobile devices
 - [ ] GUI for server
 - [ ] Add Logo
 - [ ] Product Website
+
+### after v0.1.0
+- [ ] Download folders as .zip
+- [ ] View file content without downloading
 - [ ] Server Settings
     - [ ] Set max connections
     - [ ] Restrict to only download, only view files
