@@ -4,14 +4,27 @@ use std::fs;
 use std::path::PathBuf;
 
 #[derive(Serialize, Deserialize)]
+struct FolderItem {
+    name: String,
+}
+
+impl FolderItem {
+    fn from_name(folder_name: String) -> FolderItem {
+        FolderItem { name: folder_name }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
 struct FileItem {
     name: String,
     size: String,
+    icon: String,
 }
 
 impl FileItem {
     fn from(file_name: String, bytes: u64) -> FileItem {
         FileItem {
+            icon: get_icon(&file_name),
             name: file_name,
             size: convert(bytes as f64).replace(" B", " bytes"),
         }
@@ -21,15 +34,52 @@ impl FileItem {
         FileItem {
             name: file_name,
             size: String::new(),
+            icon: String::from("default"),
         }
     }
+}
+
+// This function detects a simple file-type from the file name. This step is
+// needed so the frontend knows which icon it should use.
+// Possible answers of this function are:
+// audio, archive, code, default, document, image, presentation, pdf,
+// spreedsheet, video
+fn get_icon(file_name: &String) -> String {
+    let extension_lists = [
+        ("audio", ["test"]),
+        ("archive", ["test"]),
+        ("code", ["test"]),
+        ("default", ["test"]),
+        ("document", ["test"]),
+        ("image", ["png"]),
+        ("presentation", ["test"]),
+        ("pdf", ["test"]),
+        ("spreedsheet", ["test"]),
+        ("video", ["test"]),
+    ];
+
+    // Start with the actual detection
+    if let Some(mut index) = file_name.rfind('.') {
+        index += 1; // To exclude the point
+        let extension = &file_name[index..].to_lowercase();
+
+        for list in extension_lists.iter() {
+            for entry in list.1.iter() {
+                if extension == entry {
+                    return String::from(list.0);
+                }
+            }
+        }
+    }
+
+    String::from("default")
 }
 
 #[derive(Serialize, Deserialize)]
 struct FileRespond {
     action: String,
     path: String,
-    folders: Vec<FileItem>,
+    folders: Vec<FolderItem>,
     files: Vec<FileItem>,
 }
 
@@ -56,7 +106,6 @@ pub fn get_file_respond(path: PathBuf, path_name: String) -> String {
     };
 
     let mut respond = FileRespond::new();
-    //respond.path = path.to_str().unwrap_or("").to_string();
     respond.path = path_name;
 
     for entry in entries {
@@ -64,7 +113,7 @@ pub fn get_file_respond(path: PathBuf, path_name: String) -> String {
             if let Ok(file_type) = entry.file_type() {
                 if let Ok(file_name) = entry.file_name().into_string() {
                     if file_type.is_dir() {
-                        respond.folders.push(FileItem::from_name(file_name));
+                        respond.folders.push(FolderItem::from_name(file_name));
                     } else {
                         let item: FileItem;
 

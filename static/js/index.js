@@ -125,7 +125,8 @@ function renderFiles(path, folders, files) {
 
     // Render files
     for (i = 0; i < files.length; i++) {
-        var nameHTML = '<i style="color: #007bff" class="far fa-file-alt"></i>';
+        var iconClass = getIconClass(files[i].icon);
+        var nameHTML = '<i style="color: #007bff" class="far fa-' + iconClass + '"></i>';
         nameHTML += ' ' + files[i].name; 
         var size = files[i].size;
         var downloadHref = path + files[i].name;
@@ -134,6 +135,20 @@ function renderFiles(path, folders, files) {
     }
 
     contentElement.innerHTML = output;
+}
+
+function getIconClass(icon_type){
+    if (icon_type === "audio") { return "file-audio" }
+    else if (icon_type === "archive") { return "file-archive" }
+    else if (icon_type === "code") { return "file-code" }
+    else if (icon_type === "default") { return "file-alt" }
+    else if (icon_type === "document") { return "file-word" }
+    else if (icon_type === "image") { return "file-image" }
+    else if (icon_type === "presentation") { return "file-powerpoint" }
+    else if (icon_type === "pdf") { return "file-pdf" }
+    else if (icon_type === "spreedsheet") { return "file-excel" }
+    else if (icon_type === "video") { return "file-video" }
+    else { console.error("Unknown filetype: " + icon_type); return "file-alt" }
 }
 
 function renderRow(name, size, download) {
