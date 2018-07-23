@@ -23,7 +23,7 @@ conn.onmessage = function(e) {
 
 conn.onclose = function() {
     console.log('Disconnected.');
-    displayError('Disconnected','Lost connection to the server.');
+    displayErrorAndReload('Disconnected','Lost connection to the server.');
     conn = null;
 };
 
@@ -147,3 +147,11 @@ function displayError(header, message) {
     $('#errorModal').modal('show');
 }
 
+function displayErrorAndReload(header, message) {
+    $('#errorReloadModalLabel').text(header);
+    $('#errorReloadModalContent').text(message);
+    $('#errorReloadModal').modal('show');
+    $('#errorReloadModal').on('hide.bs.modal', function (e) {
+        window.location.reload();
+    })
+}
