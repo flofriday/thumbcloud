@@ -9,6 +9,7 @@ Sharing files via a USB thumbdrive is not optimal:
 * USB connections are "slow"
 * not all modern computers have USB type A ports
 * USB drives are limited in size (often just a few GB)
+
 Thumbcloud is my attempt to create an application to share files with friends and collegues, on the 
 same network. Moreover, they don't need to install any additional software (all they need is a 
 webbrowser).
