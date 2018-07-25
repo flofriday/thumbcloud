@@ -34,7 +34,7 @@ Feel free ignore those warnings.
    Unix (macOS, Linux, FreeBSD): `./target/release/thumbcloud $HOME`
 5. Open a Webbrowser and type `localhost:8080` in the addressbar
 
-Tipp: Run `./thumbcloud --help` for more information.
+Tipp: Run Thumbcloud with the `--help` option for more information.
 
 ## Usage
 1. Open a terminal in the directory with the executable
@@ -43,7 +43,7 @@ Tipp: Run `./thumbcloud --help` for more information.
    Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME`
 3. Open a Webbrowser and type `localhost:8080` in the addressbar
 
-Tipp: Run `./thumbcloud --help` for more information.
+Tipp: Run Thumbcloud with the `--help` option for more information.
 
 ## Todo List 
 ### v0.0.1
