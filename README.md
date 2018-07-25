@@ -32,8 +32,7 @@ Feel free ignore those warnings.
    Windows PowerShell: `.\target\release\thumbcloud.exe $HOME`<br>
    Windows CMD: `.\target\release\thumbcloud.exe %HOMEPATH%`<br>
    Unix (macOS, Linux, FreeBSD): `./target/release/thumbcloud $HOME`
-5. Open a Webbrowser and type `localhost:8080` in the addressbar<br>
-<br>
+5. Open a Webbrowser and type `localhost:8080` in the addressbar
 Tipp: Run `./thumbcloud --help` for more information.
 
 ## Usage
@@ -41,8 +40,7 @@ Tipp: Run `./thumbcloud --help` for more information.
 2. Windows CMD: `.\thumbcloud.exe %HOMEPATH%`<br>
    Windows PowerShell: `.\thumbcloud.exe $HOME`<br>
    Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME`
-3. Open a Webbrowser and type `localhost:8080` in the addressbar<br>
-<br>
+3. Open a Webbrowser and type `localhost:8080` in the addressbar
 Tipp: Run `./thumbcloud --help` for more information.
 
 ## Todo List 
