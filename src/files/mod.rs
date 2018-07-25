@@ -1,3 +1,6 @@
+mod category;
+
+//use files::category::get_category;
 use pretty_bytes::converter::convert;
 use serde_json;
 use std::fs;
@@ -18,13 +21,13 @@ impl FolderItem {
 struct FileItem {
     name: String,
     size: String,
-    icon: String,
+    category: String,
 }
 
 impl FileItem {
     fn from(file_name: String, bytes: u64) -> FileItem {
         FileItem {
-            icon: get_icon(&file_name),
+            category: category::get_from_name(&file_name),
             name: file_name,
             size: convert(bytes as f64).replace(" B", " bytes"),
         }
@@ -32,47 +35,11 @@ impl FileItem {
 
     fn from_name(file_name: String) -> FileItem {
         FileItem {
+            category: category::get_from_name(&file_name),
             name: file_name,
             size: String::new(),
-            icon: String::from("default"),
         }
     }
-}
-
-// This function detects a simple file-type from the file name. This step is
-// needed so the frontend knows which icon it should use.
-// Possible answers of this function are:
-// audio, archive, code, default, document, image, presentation, pdf,
-// spreedsheet, video
-fn get_icon(file_name: &String) -> String {
-    let extension_lists = [
-        ("audio", ["test"]),
-        ("archive", ["test"]),
-        ("code", ["test"]),
-        ("default", ["test"]),
-        ("document", ["test"]),
-        ("image", ["png"]),
-        ("presentation", ["test"]),
-        ("pdf", ["test"]),
-        ("spreedsheet", ["test"]),
-        ("video", ["test"]),
-    ];
-
-    // Start with the actual detection
-    if let Some(mut index) = file_name.rfind('.') {
-        index += 1; // To exclude the point
-        let extension = &file_name[index..].to_lowercase();
-
-        for list in extension_lists.iter() {
-            for entry in list.1.iter() {
-                if extension == entry {
-                    return String::from(list.0);
-                }
-            }
-        }
-    }
-
-    String::from("default")
 }
 
 #[derive(Serialize, Deserialize)]

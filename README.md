@@ -59,7 +59,7 @@ Tipp: Run Thumbcloud with the `--help` option for more information.
 
 ### v0.0.3
 - [ ] Upload files
-- [ ] File icons dependent on filetype
+- [X] File icons dependent on filetype
 - [X] Template engine for HTML files
 - [ ] System page
 - [ ] 404 page

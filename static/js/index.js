@@ -125,7 +125,7 @@ function renderFiles(path, folders, files) {
 
     // Render files
     for (i = 0; i < files.length; i++) {
-        var iconClass = getIconClass(files[i].icon);
+        var iconClass = getIconClass(files[i].category);
         var nameHTML = '<i style="color: #007bff" class="far fa-' + iconClass + '"></i>';
         nameHTML += ' ' + files[i].name; 
         var size = files[i].size;
