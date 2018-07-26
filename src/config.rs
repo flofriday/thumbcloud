@@ -1,17 +1,32 @@
 use clap::{AppSettings, Arg, ArgMatches};
 use std::path::PathBuf;
 
-// TODO: the addres shouldn't be a String
 pub struct Config {
     pub path: PathBuf,
     pub addr: String,
+    pub app_name: String,
+    pub crate_name: String,
 }
 
 impl Config {
     fn from_matches(matches: ArgMatches) -> Config {
+        let crate_name: String = {
+            // Capitalize the first character of the crate name
+            let s1 = env!("CARGO_PKG_NAME");
+            let mut v: Vec<char> = s1.chars().collect();
+            v[0] = v[0].to_uppercase().nth(0).unwrap();
+            v.into_iter().collect()
+        };
+
         Config {
             path: PathBuf::from(matches.value_of("INPUT").unwrap()),
-            addr: String::from(matches.value_of("address").unwrap_or("127.0.0.1:8080")),
+            addr: String::from(matches.value_of("address").unwrap_or("localhost:8080")),
+            app_name: if let Some(name) = matches.value_of("name") {
+                String::from(name)
+            } else {
+                crate_name.clone()
+            },
+            crate_name: crate_name,
         }
     }
 }
@@ -48,6 +63,13 @@ pub fn parse_arguments() -> Config {
                 .help("Sets the IP address and port the server will launch")
                 .short("a")
                 .long("addr")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("name")
+                .help("Sets a custom servername")
+                .short("n")
+                .long("name")
                 .takes_value(true),
         )
         .setting(AppSettings::ColorAlways)

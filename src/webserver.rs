@@ -12,20 +12,12 @@ use config::Config;
 use decoder;
 
 struct AppState {
-    app_name: String,
     config: config::Config,
 }
 
 impl AppState {
     fn new() -> AppState {
         AppState {
-            app_name: {
-                // Capitalize the first character of the crate name
-                let s1 = env!("CARGO_PKG_NAME");
-                let mut v: Vec<char> = s1.chars().collect();
-                v[0] = v[0].to_uppercase().nth(0).unwrap();
-                v.into_iter().collect()
-            },
             config: config::parse_arguments(),
         }
     }
@@ -42,7 +34,7 @@ fn index(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visiting index");
 
     let content = IndexTemplate {
-        app_name: &req.state().app_name,
+        app_name: &req.state().config.app_name,
         page: "index",
     }.render()
         .unwrap();
@@ -54,6 +46,7 @@ fn index(req: HttpRequest<AppState>) -> Result<HttpResponse> {
 struct AboutTemplate<'a> {
     app_name: &'a str,
     page: &'a str,
+    header: String,
     description: &'a str,
     version: &'a str,
     license: &'a str,
@@ -66,9 +59,21 @@ struct AboutTemplate<'a> {
 fn about(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visiting about");
 
+    let header =
+        if &req.state().config.app_name.to_lowercase() == &env!("CARGO_PKG_NAME").to_lowercase() {
+            format!("About {}", &req.state().config.app_name)
+        } else {
+            format!(
+                "About {} (based on {})",
+                &req.state().config.app_name,
+                &req.state().config.crate_name
+            )
+        };
+
     let content = AboutTemplate {
-        app_name: &req.state().app_name,
+        app_name: &req.state().config.app_name,
         page: "about",
+        header: header,
         description: env!("CARGO_PKG_DESCRIPTION"),
         version: env!("CARGO_PKG_VERSION"),
         license: "MIT",
@@ -90,7 +95,7 @@ fn system(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visiting system");
 
     let content = SystemTemplate {
-        app_name: &req.state().app_name,
+        app_name: &req.state().config.app_name,
         page: "system",
     }.render()
         .unwrap();
@@ -141,7 +146,7 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
 }
 
 pub fn run(config: Config) {
-    println!("Started webserver at: {}", config.addr);
+    println!("Started {} at: {}", config.app_name, config.addr);
 
     // TODO: there should be no need to create the conf variable here, because
     // config already has the path
