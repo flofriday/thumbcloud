@@ -1209,7 +1209,7 @@ pub fn get_from_name(file_name: &String) -> String {
             ],
         ),
         (
-            "presentation",
+            "spreedsheet",
             vec![
                 "csv", "fods", "numbers", "ods", "ots", "uos", "xla", "xlam", "xll", "xlm", "xls",
                 "xlsb", "xlsm", "xlsx", "xlt", "xltm", "xltx", "xlw",
@@ -1217,7 +1217,7 @@ pub fn get_from_name(file_name: &String) -> String {
         ),
         ("pdf", vec!["pdf"]),
         (
-            "spreedsheet",
+            "presentation",
             vec![
                 "fodp", "keynote", "odp", "otp", "pot", "potm", "potx", "ppam", "pps", "ppsm",
                 "ppsx", "ppt", "pptm", "pptx", "sldm", "sldx", "uop",
