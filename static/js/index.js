@@ -60,7 +60,7 @@ var sort_by = function(field, reverse, primer){
 function requestFiles(path) {
     msg = {
         "action": "requestFilelist",
-        "path": path
+        "path": decodeURI(path)
     };
 
     conn.send(JSON.stringify(msg));

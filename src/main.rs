@@ -7,6 +7,7 @@ extern crate askama;
 #[macro_use]
 extern crate clap;
 extern crate futures;
+extern crate htmlescape;
 extern crate pretty_bytes;
 extern crate serde;
 

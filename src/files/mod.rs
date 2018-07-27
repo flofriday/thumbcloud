@@ -1,6 +1,6 @@
 mod category;
 
-//use files::category::get_category;
+use htmlescape;
 use pretty_bytes::converter::convert;
 use serde_json;
 use std::fs;
@@ -13,7 +13,9 @@ struct FolderItem {
 
 impl FolderItem {
     fn from_name(folder_name: String) -> FolderItem {
-        FolderItem { name: folder_name }
+        FolderItem {
+            name: htmlescape::encode_minimal(&folder_name),
+        }
     }
 }
 
@@ -28,7 +30,7 @@ impl FileItem {
     fn from(file_name: String, bytes: u64) -> FileItem {
         FileItem {
             category: category::get_from_name(&file_name),
-            name: file_name,
+            name: htmlescape::encode_minimal(&file_name),
             size: convert(bytes as f64).replace(" B", " bytes"),
         }
     }
@@ -36,7 +38,7 @@ impl FileItem {
     fn from_name(file_name: String) -> FileItem {
         FileItem {
             category: category::get_from_name(&file_name),
-            name: file_name,
+            name: htmlescape::encode_minimal(&file_name),
             size: String::new(),
         }
     }
@@ -51,10 +53,10 @@ struct FileRespond {
 }
 
 impl FileRespond {
-    fn new() -> FileRespond {
+    fn from_path(path_name: String) -> FileRespond {
         FileRespond {
             action: "sendFilelist".to_string(),
-            path: String::new(),
+            path: htmlescape::encode_minimal(&path_name),
             folders: Vec::new(),
             files: Vec::new(),
         }
@@ -72,8 +74,7 @@ pub fn get_file_respond(path: PathBuf, path_name: String) -> String {
         }
     };
 
-    let mut respond = FileRespond::new();
-    respond.path = path_name;
+    let mut respond = FileRespond::from_path(path_name);
 
     for entry in entries {
         if let Ok(entry) = entry {
