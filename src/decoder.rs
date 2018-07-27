@@ -4,7 +4,6 @@ use std::path::PathBuf;
 
 use files;
 
-// TODO: Security: prevent path traversal
 pub fn decode(input: String, path_base: &PathBuf) -> String {
     let data: Value = serde_json::from_str(input.as_str()).unwrap();
 
@@ -16,8 +15,26 @@ pub fn decode(input: String, path_base: &PathBuf) -> String {
         path_end.remove(0);
         path_end.pop();
 
-        let mut path: PathBuf = path_base.to_owned();
+        let mut path: PathBuf = path_base.clone();
         path.push(&path_end);
+        path = match path.canonicalize() {
+            Ok(e) => e,
+            Err(_) => {
+                return json!({
+                    "action": "sendError",
+                    "message": format!("Cannot read the given path: {:?}", path_end)
+                }).to_string();
+            }
+        };
+
+        // Prevent path tranversal attacks
+        if path.starts_with(path_base) == false {
+            println!("SECURITY: prevented path tranversal attack");
+            return json!({
+                "action": "sendError",
+                "message": format!("Cannot read the given path: {:?}", path_end)
+            }).to_string();
+        }
 
         return files::get_file_respond(path, path_end);
     } else {
