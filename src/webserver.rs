@@ -31,7 +31,7 @@ struct IndexTemplate<'a> {
 }
 
 fn index(req: HttpRequest<AppState>) -> Result<HttpResponse> {
-    println!("Visiting index");
+    println!("Visit index");
 
     let content = IndexTemplate {
         app_name: &req.state().config.app_name,
@@ -57,7 +57,7 @@ struct AboutTemplate<'a> {
 // TODO: This code shouldn't be that hardcoded. The right way would be to load
 // and parse the Cargo.toml file at compile-time.
 fn about(req: HttpRequest<AppState>) -> Result<HttpResponse> {
-    println!("Visiting about");
+    println!("Visit about");
 
     let header =
         if &req.state().config.app_name.to_lowercase() == &env!("CARGO_PKG_NAME").to_lowercase() {
@@ -92,7 +92,7 @@ struct SystemTemplate<'a> {
 }
 
 fn system(req: HttpRequest<AppState>) -> Result<HttpResponse> {
-    println!("Visiting system");
+    println!("Visit system");
 
     let content = SystemTemplate {
         app_name: &req.state().config.app_name,

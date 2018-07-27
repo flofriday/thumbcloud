@@ -74,6 +74,7 @@ pub fn get_file_respond(path: PathBuf, path_name: String) -> String {
         }
     };
 
+    println!("Open path: {:?}", path_name);
     let mut respond = FileRespond::from_path(path_name);
 
     for entry in entries {

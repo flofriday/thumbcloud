@@ -19,7 +19,7 @@ pub fn decode(input: String, path_base: &PathBuf) -> String {
         let mut path: PathBuf = path_base.to_owned();
         path.push(&path_end);
 
-        println!("Open path: {:?}", path); //TODO: remove later
+        println!("Open path: {:?}", path_end); //TODO: remove later
         return files::get_file_respond(path, path_end);
     } else {
         return json!({
