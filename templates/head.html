@@ -1,7 +1,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="theme-color" content="#292e33"> <!-- TODO: Don't hardcode this -->
-<title>{{ app_name }}</title>
+<title>{{ app_name }} {% if page != "Index" %} - {{ page }} {% endif %}</title>
 
 <!-- CSS Dependencies -->
 <link rel="stylesheet" href="./../css/bootstrap.min.css">

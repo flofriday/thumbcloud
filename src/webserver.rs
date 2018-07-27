@@ -35,7 +35,7 @@ fn index(req: HttpRequest<AppState>) -> Result<HttpResponse> {
 
     let content = IndexTemplate {
         app_name: &req.state().config.app_name,
-        page: "index",
+        page: "Index",
     }.render()
         .unwrap();
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
@@ -72,7 +72,7 @@ fn about(req: HttpRequest<AppState>) -> Result<HttpResponse> {
 
     let content = AboutTemplate {
         app_name: &req.state().config.app_name,
-        page: "about",
+        page: "About",
         header: header,
         description: env!("CARGO_PKG_DESCRIPTION"),
         version: env!("CARGO_PKG_VERSION"),
@@ -96,7 +96,7 @@ fn system(req: HttpRequest<AppState>) -> Result<HttpResponse> {
 
     let content = SystemTemplate {
         app_name: &req.state().config.app_name,
-        page: "system",
+        page: "System",
     }.render()
         .unwrap();
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
