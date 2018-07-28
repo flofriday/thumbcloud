@@ -5,6 +5,7 @@ use actix_web::http::header::*;
 use actix_web::*;
 use askama::Template;
 use futures::future::Future;
+use std::io;
 use std::path::PathBuf;
 
 use config;
@@ -107,10 +108,10 @@ fn ws_route(req: HttpRequest<AppState>) -> Result<HttpResponse, Error> {
     ws::start(req, WsSession { path: path })
 }
 
-// TODO: this should not be inside an panic but a standalone message
-fn get_bind_error(addr: &String) -> String {
-    format!(
+fn print_bind_error(err: io::Error, addr: &String) {
+    println!(
         "\n
+            BIND ERROR: \"{}\" 
             --------------------------------------------------------------------
             Can not bind server to: {}
             
@@ -122,6 +123,7 @@ fn get_bind_error(addr: &String) -> String {
                permission to use it, in which case `sudo thumbcloud` should work
             --------------------------------------------------------------------
             \n",
+        err.get_ref().unwrap_or(&err),
         addr
     )
 }
@@ -146,11 +148,9 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
 }
 
 pub fn run(config: Config) {
-    println!("Started {} at: {}", config.app_name, config.addr);
-
     // TODO: there should be no need to create the conf variable here, because
     // config already has the path
-    server::new(move || {
+    let server = match server::new(move || {
         App::with_state(AppState::new())
             .resource("/about", |r| r.f(about))
             .resource("/system", |r| r.f(system))
@@ -168,6 +168,14 @@ pub fn run(config: Config) {
             })
             .handler("/", StaticFiles::new("./static/").default_handler(index))
     }).bind(&config.addr)
-        .expect(get_bind_error(&config.addr).as_str())
-        .run();
+    {
+        Ok(server) => server,
+        Err(e) => {
+            print_bind_error(e, &config.addr);
+            return;
+        }
+    };
+
+    println!("Started {} at: {}", config.app_name, config.addr);
+    server.run();
 }
