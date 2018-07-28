@@ -23,7 +23,7 @@ impl Config {
             addr: String::from(matches.value_of("address").unwrap_or("localhost:8080")),
             app_name: match matches.value_of("name") {
                 Some(name) => String::from(correct_invalid_name(name, &crate_name)),
-                None => crate_name.clone()
+                None => crate_name.clone(),
             },
             crate_name: crate_name,
         }
