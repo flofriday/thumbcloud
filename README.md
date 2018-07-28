@@ -15,7 +15,7 @@ same network. Moreover, they don't need to install any additional software (all 
 webbrowser).
 
 __Disclaimer__: The software still is in early development and misses some important features.
-Furthermore, there are some security flaws (like path traversal). 
+Furthermore, there are some bugs and maybe even security flaws. 
 In a nutshell, you shouldn't use the software yet in "production", but feel free to try it out.
 
 ## Install
@@ -45,7 +45,7 @@ Tipp: Run Thumbcloud with the `--help` option for more information.
 
 Tipp: Run Thumbcloud with the `--help` option for more information.
 
-## Todo List 
+## Feature List 
 ### v0.0.1
 - [X] Viewing files in the webbrowser
 
@@ -69,6 +69,7 @@ Tipp: Run Thumbcloud with the `--help` option for more information.
 - [ ] GUI for server
 - [ ] Drag & Drop support
 - [ ] Add Logo
+- [ ] Add detailed documentation
 - [ ] Product Website
 
 ### after v0.1.0
