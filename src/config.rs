@@ -21,13 +21,21 @@ impl Config {
         Config {
             path: PathBuf::from(matches.value_of("INPUT").unwrap()),
             addr: String::from(matches.value_of("address").unwrap_or("localhost:8080")),
-            app_name: if let Some(name) = matches.value_of("name") {
-                String::from(name)
-            } else {
-                crate_name.clone()
+            app_name: match matches.value_of("name") {
+                Some(name) => String::from(correct_invalid_name(name, &crate_name)),
+                None => crate_name.clone()
             },
             crate_name: crate_name,
         }
+    }
+}
+
+fn correct_invalid_name<'a>(app_name: &'a str, crate_name: &'a str) -> &'a str {
+    if app_name.trim().is_empty() {
+        //Entered invalid name, reverting back to default cratename
+        crate_name
+    } else {
+        app_name
     }
 }
 
