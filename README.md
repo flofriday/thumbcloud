@@ -22,7 +22,7 @@ In a nutshell, you shouldn't use the software yet in "production", but feel free
 Just download the [latest release](https://github.com/flofriday/thumbcloud/releases) and unpack it.
 
 Warning: Windows and macOS might warn you because the binaries are not singed.
-Feel free ignore those warnings.
+Feel to free ignore those warnings.
 
 ### Build from source
 1. [Install rust](https://doc.rust-lang.org/book/second-edition/ch01-01-installation.html)
