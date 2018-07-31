@@ -1,0 +1,8 @@
+.info-table td, .info-table th {
+    padding-right: .8rem;
+}
+
+.info-table td:first-child {
+    color: grey !important;
+    text-align: right;
+}

@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         {% include "head.html" %}
+        <link rel="stylesheet" href="./../css/info-table.css">
     </head>
     <body>
 
@@ -14,18 +15,35 @@
                 <h4 class="card-header">{{ header }}</h4>
                 <div class="card-body">
                     <p class="card-text">
-                    {{ description }}.<br><br>
-                    Version: {{ version }}<br>
-                    Author: <a target=”_blank” href="https://www.github.com/flofriday">flofriday</a><br>
-                    License: <a target=”_blank” href="{{ repository }}/blob/master/LICENSE">{{ license }}</a><br>
-                    Github: <a target=”_blank” href="{{ repository }}">{{ repository_name }}</a><br><br>
+                    {{ description }}.
+                    <table class="info-table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>Version</td>
+                                <td>{{ version }}</td>
+                            </tr>
+                            <tr>
+                                <td>Author</td>
+                                <!-- TODO: shouldn't be hardcoded -->
+                                <td><a target=”_blank” href="https://www.github.com/flofriday">flofriday</a></td>
+                            </tr>
+                            <tr>
+                                <td>License</td>
+                                <td><a target=”_blank” href="{{ repository }}/blob/master/LICENSE">{{ license }}</a></td>
+                            </tr>
+                            <tr>
+                                <td>Github</td>
+                                <td><a target=”_blank” href="{{ repository }}">{{ repository_name }}</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
                     Found a bug, or just want to request a feature? <br>
                     Feel free to write a <a target=”_blank” href="{{ repository }}/issues/new">issue</a>.<br>
                     </p>
                 </div>
             </div>
         </div>
-
 
         <script src="./../js/jquery-3.2.1.slim.min.js"></script>
         <script src="./../js/bootstrap.min.js"></script>
