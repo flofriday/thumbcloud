@@ -3,6 +3,6 @@
 }
 
 .info-table td:first-child {
-    color: grey !important;
+    color: grey;
     text-align: right;
 }
