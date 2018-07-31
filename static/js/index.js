@@ -28,7 +28,15 @@ conn.onclose = function() {
 };
 
 window.onhashchange = function(e) {
-    var path = e.newURL.split("#").pop();
+    var path;
+
+    // Check if the URl even has a hash, if not reload with clear path
+    if (e.newURL.indexOf('#') === -1) {
+        path = '';
+    } else {
+        path = e.newURL.split("#").pop();
+    }
+
     requestFiles(path);
 }
 
