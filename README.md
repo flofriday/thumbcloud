@@ -34,8 +34,6 @@ Feel to free ignore those warnings.
    Unix (macOS, Linux, FreeBSD): `./target/release/thumbcloud $HOME`
 5. Open a Webbrowser and type `localhost:8080` in the addressbar
 
-Tipp: Run Thumbcloud with the `--help` option for more information.
-
 ## Usage
 1. Open a terminal in the directory with the executable
 2. Windows CMD: `.\thumbcloud.exe %HOMEPATH%`<br>
@@ -43,7 +41,21 @@ Tipp: Run Thumbcloud with the `--help` option for more information.
    Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME`
 3. Open a Webbrowser and type `localhost:8080` in the addressbar
 
-Tipp: Run Thumbcloud with the `--help` option for more information.
+```
+USAGE:
+    thumbcloud [OPTIONS] <INPUT>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -a, --addr <address>    Sets the IP address and port the server will launch
+    -n, --name <name>       Sets a custom servername
+
+ARGS:
+    <INPUT>    Sets the path thumbcloud will share
+```
 
 ## Feature List 
 ### v0.0.1
