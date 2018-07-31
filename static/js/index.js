@@ -138,7 +138,7 @@ function renderFiles(path, folders, files) {
         nameHTML += ' ' + files[i].name; 
         var size = files[i].size;
         var downloadHref = path + files[i].name;
-        var downloadLink = '<a target=”_blank” href="download/' + downloadHref + '"><i class="fas fa-download"></i></a>';
+        var downloadLink = '<a download href="download/' + downloadHref + '"><i class="fas fa-download"></i></a>';
         output += renderRow(nameHTML, size, downloadLink);
     }
 
