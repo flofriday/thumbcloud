@@ -32,14 +32,14 @@ Feel to free ignore those warnings.
    Windows PowerShell: `.\target\release\thumbcloud.exe $HOME`<br>
    Windows CMD: `.\target\release\thumbcloud.exe %HOMEPATH%`<br>
    Unix (macOS, Linux, FreeBSD): `./target/release/thumbcloud $HOME`
-5. Open a Webbrowser and type `localhost:8080` in the addressbar
+5. Open a Webbrowser and enter the IP address shown in the terminal in the addressbar
 
 ## Usage
 1. Open a terminal in the directory with the executable
 2. Windows CMD: `.\thumbcloud.exe %HOMEPATH%`<br>
    Windows PowerShell: `.\thumbcloud.exe $HOME`<br>
    Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME`
-3. Open a Webbrowser and type `localhost:8080` in the addressbar
+3. Open a Webbrowser and enter the IP address shown in the terminal in the addressbar
 
 ```
 USAGE:
@@ -71,6 +71,7 @@ ARGS:
 
 ### v0.0.3
 - [ ] Upload files
+- [X] Automatic local IP detection
 - [X] File icons dependent on filetype
 - [X] Template engine for HTML files
 - [ ] System page

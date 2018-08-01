@@ -1,9 +1,11 @@
 use clap::{AppSettings, Arg, ArgMatches};
+use machine_ip;
+use std::net::{IpAddr, Ipv4Addr, SocketAddr, ToSocketAddrs};
 use std::path::PathBuf;
 
 pub struct Config {
     pub path: PathBuf,
-    pub addr: String,
+    pub addr: SocketAddr,
     pub app_name: String,
     pub crate_name: String,
 }
@@ -20,7 +22,7 @@ impl Config {
 
         Config {
             path: PathBuf::from(matches.value_of("INPUT").unwrap()),
-            addr: String::from(matches.value_of("address").unwrap_or("localhost:8080")),
+            addr: get_address(matches.value_of("address")),
             app_name: match matches.value_of("name") {
                 Some(name) => String::from(correct_invalid_name(name, &crate_name)),
                 None => crate_name.clone(),
@@ -28,6 +30,23 @@ impl Config {
             crate_name: crate_name,
         }
     }
+}
+
+fn get_address(input_address: Option<&str>) -> SocketAddr {
+    // Return input address if it is a valid socket
+    if let Some(input_address) = input_address {
+        if let Ok(mut socket_iter) = input_address.to_socket_addrs() {
+            if let Some(socket) = socket_iter.next() {
+                return socket;
+            }
+        }
+    }
+
+    let local_ip = machine_ip::get();
+    SocketAddr::new(
+        local_ip.unwrap_or(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1))),
+        8080,
+    )
 }
 
 fn correct_invalid_name<'a>(app_name: &'a str, crate_name: &'a str) -> &'a str {
@@ -52,9 +71,19 @@ fn is_valid_path(input: String) -> Result<(), String> {
     }
 
     Err(String::from(format!(
-        "Could not locate the given directory {:?}",
+        "Could not locate the given directory: {}",
         input
     )))
+}
+
+fn is_valid_address(input: String) -> Result<(), String> {
+    if let Ok(mut socket_iter) = input.to_socket_addrs() {
+        if let Some(_) = socket_iter.next() {
+            return Ok(());
+        }
+    }
+
+    Err(String::from("Invalid socket address"))
 }
 
 pub fn parse_arguments() -> Config {
@@ -71,6 +100,7 @@ pub fn parse_arguments() -> Config {
                 .help("Sets the IP address and port the server will launch")
                 .short("a")
                 .long("addr")
+                .validator(is_valid_address)
                 .takes_value(true),
         )
         .arg(

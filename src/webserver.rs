@@ -6,6 +6,7 @@ use actix_web::*;
 use askama::Template;
 use futures::future::Future;
 use std::io;
+use std::net::SocketAddr;
 use std::path::PathBuf;
 
 use config;
@@ -108,7 +109,7 @@ fn ws_route(req: HttpRequest<AppState>) -> Result<HttpResponse, Error> {
     ws::start(req, WsSession { path: path })
 }
 
-fn print_bind_error(err: io::Error, addr: &String) {
+fn print_bind_error(err: io::Error, addr: &SocketAddr) {
     println!(
         "\n
             BIND ERROR: \"{}\" 
