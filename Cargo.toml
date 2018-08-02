@@ -9,8 +9,8 @@ homepage = "https://github.com/flofriday/thumbcloud"
 license = "MIT"
 
 [dependencies]
-actix = "0.5"
-actix-web = "0.6"
+actix = "0.7"
+actix-web = "0.7"
 askama = "0.7"
 clap = "2.32"
 futures = "0.1.0"

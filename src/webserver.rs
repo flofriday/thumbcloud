@@ -32,7 +32,7 @@ struct IndexTemplate<'a> {
     page: &'a str,
 }
 
-fn index(req: HttpRequest<AppState>) -> Result<HttpResponse> {
+fn index(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit index");
 
     let content = IndexTemplate {
@@ -58,7 +58,7 @@ struct AboutTemplate<'a> {
 
 // TODO: This code shouldn't be that hardcoded. The right way would be to load
 // and parse the Cargo.toml file at compile-time.
-fn about(req: HttpRequest<AppState>) -> Result<HttpResponse> {
+fn about(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit about");
 
     let header =
@@ -95,7 +95,7 @@ struct SystemTemplate<'a> {
     os: &'a str,
 }
 
-fn system(req: HttpRequest<AppState>) -> Result<HttpResponse> {
+fn system(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit system");
 
     let content = SystemTemplate {
@@ -115,7 +115,7 @@ struct DefaultTemplate<'a> {
     page: &'a str,
 }
 
-fn default(req: HttpRequest<AppState>) -> Result<HttpResponse> {
+fn default(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit Page not found");
 
     let content = DefaultTemplate {
@@ -126,9 +126,9 @@ fn default(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
-fn ws_route(req: HttpRequest<AppState>) -> Result<HttpResponse, Error> {
+fn ws_route(req: &HttpRequest<AppState>) -> Result<HttpResponse, Error> {
     let config = req.state().config.clone();
-    ws::start(req, WsSession { config: config })
+    ws::start(&req, WsSession { config: config })
 }
 
 fn print_bind_error(err: io::Error, addr: &SocketAddr) {
@@ -178,9 +178,9 @@ pub fn run(config: Config) {
             .resource("/about", |r| r.f(about))
             .resource("/system", |r| r.f(system))
             .resource("/ws/", |r| r.route().f(ws_route))
-            .handler("/download", move |req: HttpRequest<AppState>| {
+            .handler("/download", move |req: &HttpRequest<AppState>| {
                 let conf = config::parse_arguments();
-                StaticFiles::new(conf.path).handle(req).map(|ok| {
+                StaticFiles::new(conf.path).unwrap().handle(&req).map(|ok| {
                     ok.map(|mut response| {
                         response
                             .headers_mut()
@@ -189,7 +189,7 @@ pub fn run(config: Config) {
                     }).responder()
                 })
             })
-            .handler("/static", StaticFiles::new("./static/").default_handler(default))
+            .handler("/static", StaticFiles::new("./static/").unwrap().default_handler(default))
             .resource("/", |r| r.f(index))
             .default_resource(|r| r.f(default))
     }).bind(&config.addr)
