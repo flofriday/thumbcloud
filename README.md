@@ -32,14 +32,14 @@ Feel to free ignore those warnings.
    Windows PowerShell: `.\target\release\thumbcloud.exe $HOME`<br>
    Windows CMD: `.\target\release\thumbcloud.exe %HOMEPATH%`<br>
    Unix (macOS, Linux, FreeBSD): `./target/release/thumbcloud $HOME`
-5. Open a Webbrowser and enter the IP address shown in the terminal in the addressbar
+5. Open a Webbrowser and enter in the addressbar the IP address shown in the terminal
 
 ## Usage
 1. Open a terminal in the directory with the executable
 2. Windows CMD: `.\thumbcloud.exe %HOMEPATH%`<br>
    Windows PowerShell: `.\thumbcloud.exe $HOME`<br>
    Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME`
-3. Open a Webbrowser and enter the IP address shown in the terminal in the addressbar
+3. Open a Webbrowser and enter in the addressbar the IP address shown in the terminal
 
 ```
 USAGE:
@@ -75,7 +75,7 @@ ARGS:
 - [X] File icons dependent on filetype
 - [X] Template engine for HTML files
 - [X] System page
-- [ ] 404 page
+- [X] 404 page
 
 ### v0.1.0
 - [ ] Optimize for mobile devices

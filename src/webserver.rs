@@ -108,6 +108,24 @@ fn system(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
+#[derive(Template)]
+#[template(path = "default.html")]
+struct DefaultTemplate<'a> {
+    app_name: &'a str,
+    page: &'a str,
+}
+
+fn default(req: HttpRequest<AppState>) -> Result<HttpResponse> {
+    println!("Visit Page not found");
+
+    let content = DefaultTemplate {
+        app_name: &req.state().config.app_name,
+        page: "Page not found",
+    }.render()
+        .unwrap();
+    Ok(HttpResponse::Ok().content_type("text/html").body(content))
+}
+
 fn ws_route(req: HttpRequest<AppState>) -> Result<HttpResponse, Error> {
     let config = req.state().config.clone();
     ws::start(req, WsSession { config: config })
@@ -171,7 +189,9 @@ pub fn run(config: Config) {
                     }).responder()
                 })
             })
-            .handler("/", StaticFiles::new("./static/").default_handler(index))
+            .handler("/static", StaticFiles::new("./static/").default_handler(default))
+            .resource("/", |r| r.f(index))
+            .default_resource(|r| r.f(default))
     }).bind(&config.addr)
     {
         Ok(server) => server,
