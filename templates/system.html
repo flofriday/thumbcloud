@@ -2,20 +2,56 @@
 <html lang="en">
     <head>
         {% include "head.html" %}
+        <link rel="stylesheet" href="./../css/info-table.css">
     </head>
     <body>
 
         <!-- Navbar -->
         {% include "navbar.html" %}
 
+       <!-- Modal for notifications -->
+        {% include "modal.html" %}
+
         <!-- Page content -->
-        system.html </br>
-        </br>
-        Note: the system page will be implemented in the next verison.</br>
-        <a href="/#">Back Home</a>
+        <div class="container">
+            <div class="card" style="margin-top: 30px;">
+                <h4 class="card-header">System</h4>
+                <div class="card-body">
+                    <p class="card-text">
+                    <table class="info-table table-borderless">
+                        <tbody>
+                            <tr>
+                                <td>Operating Sytstem</td>
+                                <td>{{ os }}</td>
+                            </tr>
+                            <!-- Maybe these two features won't be available because speed
+                                <tr>
+                                <td>Shared Folder</td>
+                                <td id="folderSize"></td>
+                            </tr>
+                            <tr>
+                                <td>Free Disk</td>
+                                <td id="freeDisk"></td>
+                            </tr>
+                            -->
+                            <tr>
+                                <td>IP Address</td>
+                                <td>{{ addr }}</td>
+                            </tr>
+                            <tr>
+                                <td>Uptime</td>
+                                <td id="uptime"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </p>
+                </div>
+            </div>
+        </div>
 
 
         <script src="./../js/jquery-3.2.1.slim.min.js"></script>
         <script src="./../js/bootstrap.min.js"></script>
+        <script src="./../js/system.js"></script>
     </body>
 </html>

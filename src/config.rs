@@ -2,12 +2,14 @@ use clap::{AppSettings, Arg, ArgMatches};
 use machine_ip;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr, ToSocketAddrs};
 use std::path::PathBuf;
+use std::time::SystemTime;
 
 pub struct Config {
     pub path: PathBuf,
     pub addr: SocketAddr,
     pub app_name: String,
     pub crate_name: String,
+    pub start_time: SystemTime,
 }
 
 impl Config {
@@ -28,6 +30,19 @@ impl Config {
                 None => crate_name.clone(),
             },
             crate_name: crate_name,
+            start_time: SystemTime::now(),
+        }
+    }
+}
+
+impl Clone for Config {
+    fn clone(&self) -> Config {
+        Config {
+            path: self.path.clone(),
+            addr: self.addr.clone(),
+            app_name: self.app_name.clone(),
+            crate_name: self.crate_name.clone(),
+            start_time: self.start_time.clone(),
         }
     }
 }

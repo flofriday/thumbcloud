@@ -74,7 +74,7 @@ ARGS:
 - [X] Automatic local IP detection
 - [X] File icons dependent on filetype
 - [X] Template engine for HTML files
-- [ ] System page
+- [X] System page
 - [ ] 404 page
 
 ### v0.1.0

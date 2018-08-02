@@ -7,11 +7,11 @@ use askama::Template;
 use futures::future::Future;
 use std::io;
 use std::net::SocketAddr;
-use std::path::PathBuf;
 
 use config;
 use config::Config;
 use decoder;
+use system;
 
 struct AppState {
     config: config::Config,
@@ -91,6 +91,8 @@ fn about(req: HttpRequest<AppState>) -> Result<HttpResponse> {
 struct SystemTemplate<'a> {
     app_name: &'a str,
     page: &'a str,
+    addr: &'a SocketAddr,
+    os: &'a str,
 }
 
 fn system(req: HttpRequest<AppState>) -> Result<HttpResponse> {
@@ -99,14 +101,16 @@ fn system(req: HttpRequest<AppState>) -> Result<HttpResponse> {
     let content = SystemTemplate {
         app_name: &req.state().config.app_name,
         page: "System",
+        addr: &req.state().config.addr,
+        os: system::get_os(),
     }.render()
         .unwrap();
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
 fn ws_route(req: HttpRequest<AppState>) -> Result<HttpResponse, Error> {
-    let path = req.state().config.path.clone();
-    ws::start(req, WsSession { path: path })
+    let config = req.state().config.clone();
+    ws::start(req, WsSession { config: config })
 }
 
 fn print_bind_error(err: io::Error, addr: &SocketAddr) {
@@ -130,7 +134,7 @@ fn print_bind_error(err: io::Error, addr: &SocketAddr) {
 }
 
 struct WsSession {
-    path: PathBuf,
+    config: Config,
 }
 
 impl Actor for WsSession {
@@ -141,7 +145,7 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
     fn handle(&mut self, msg: ws::Message, ctx: &mut Self::Context) {
         match msg {
             ws::Message::Ping(msg) => ctx.pong(&msg),
-            ws::Message::Text(text) => ctx.text(decoder::decode(text, &self.path)),
+            ws::Message::Text(text) => ctx.text(decoder::decode(text, &self.config)),
             ws::Message::Binary(bin) => ctx.binary(bin),
             _ => (),
         }

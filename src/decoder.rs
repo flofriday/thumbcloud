@@ -1,13 +1,15 @@
 use serde_json;
 use serde_json::Value;
-use std::path::PathBuf;
 
+use config::Config;
 use files;
+use system;
 
-pub fn decode(input: String, path_base: &PathBuf) -> String {
+pub fn decode(input: String, config: &Config) -> String {
     let data: Value = serde_json::from_str(input.as_str()).unwrap();
 
     if data["action"] == "requestFilelist" {
+        let path_base = &config.path;
         let mut path_end = data["path"].to_string();
 
         // From the to_string methode the string starts and ends with a double-
@@ -15,7 +17,7 @@ pub fn decode(input: String, path_base: &PathBuf) -> String {
         path_end.remove(0);
         path_end.pop();
 
-        let mut path: PathBuf = path_base.clone();
+        let mut path = path_base.clone();
         path.push(&path_end);
         path = match path.canonicalize() {
             Ok(e) => e,
@@ -37,6 +39,8 @@ pub fn decode(input: String, path_base: &PathBuf) -> String {
         }
 
         return files::get_file_respond(path, path_end);
+    } else if data["action"] == "requestUptime" {
+        return system::get_uptime_respond(&config.start_time);
     } else {
         return json!({
                 "action": "sendError",

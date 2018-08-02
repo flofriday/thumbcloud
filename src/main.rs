@@ -21,6 +21,7 @@ extern crate serde_json;
 pub mod config;
 pub mod decoder;
 pub mod files;
+pub mod system;
 pub mod webserver;
 
 fn main() {
