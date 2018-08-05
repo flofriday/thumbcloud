@@ -11,6 +11,28 @@
 
         <!-- Modal for notifications -->
         {% include "modal.html" %}
+        <!-- This is a modal to upload a file -->
+        <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-primary" id="uploadModalLabel">Upload File</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="uploadModalContent" class="modal-body">
+
+                        <form action="/upload" method="post" enctype="multipart/form-data">
+                            <input id="file-upload" type="file" name="/"/>
+                            <input class="btn btn-primary" type="submit" value="Submit"></input>
+                        </form>
+
+                    </div>
+                    <!--<button type="button" class="btn btn-primary" data-dismiss="modal">Upload?</button>-->
+                </div>
+            </div>
+        </div>
 
         <!-- Page content -->
         <div class="container">
@@ -36,6 +58,7 @@
                 </div>
                 <div class="col-sm-auto">
                     <div class="row">
+
                         <button id="upload" type="button" class="btn btn-primary">
                             <i class="fas fa-upload"></i>
                             Upload

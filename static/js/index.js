@@ -2,6 +2,7 @@ var pathElement = document.getElementById("path")
 var contentElement = document.getElementById("content")
 var newFolderElement = document.getElementById("new-folder")
 var uploadElement = document.getElementById("upload")
+var fileUploadElement = document.getElementById("file-upload");
 
 var wsUri = 'ws:' + window.location.host + '/ws/';
 console.log('Trying to connect to: ' + wsUri);
@@ -38,6 +39,8 @@ window.onhashchange = function(e) {
     }
 
     requestFiles(path);
+
+
 }
 
 newFolderElement.onclick = function(e) {
@@ -47,8 +50,7 @@ newFolderElement.onclick = function(e) {
 }
 
 uploadElement.onclick = function(e) {
-    displayError('Not supported', 'This feature is not implemented yet, ' + 
-    'but it will be in the next version.')
+    $('#uploadModal').modal('show');
 }
 // This function sorts an array of objects
 // Usage: data.sort(sort_by('key', true, parseInt));
@@ -81,6 +83,10 @@ function decode(input) {
 
     if (obj.action == 'sendFilelist') {
         renderFiles(path, obj.folders, obj.files);
+
+        // fileUpload can't have an empty path
+        if (path == "") { path=" " }
+        fileUploadElement.name = path;
 
     } else if (obj.action == 'sendError') {
         console.log('Got Error from Server:' + obj.message);
