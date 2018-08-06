@@ -1,5 +1,3 @@
-var pathElement = document.getElementById("path")
-var contentElement = document.getElementById("content")
 var newFolderElement = document.getElementById("new-folder")
 var uploadElement = document.getElementById("upload")
 var fileUploadElement = document.getElementById("file-upload");
@@ -42,6 +40,21 @@ window.onhashchange = function(e) {
 
 
 }
+
+// a faster alternative to element.innerHTML
+function replaceHtml(el, html) {
+	var oldEl = typeof el === "string" ? document.getElementById(el) : el;
+	/*@cc_on // Pure innerHTML is slightly faster in IE
+		oldEl.innerHTML = html;
+		return oldEl;
+	@*/
+	var newEl = oldEl.cloneNode(false);
+	newEl.innerHTML = html;
+	oldEl.parentNode.replaceChild(newEl, oldEl);
+	/* Since we just removed the old element from the DOM, return a reference
+	to the new element, which can be used to restore variable references. */
+	return newEl;
+};
 
 newFolderElement.onclick = function(e) {
     e.preventDefault();
@@ -119,7 +132,7 @@ function renderFiles(path, folders, files) {
     }
 
     pathOutput = pathOutput.substring(0, pathOutput.length - 2);
-    pathElement.innerHTML = '<h5>' + pathOutput + '</h5>';
+    replaceHtml("path", '<h5>' + pathOutput + '</h5>')
 
     // Create the file and folder list
     var output = '';
@@ -148,7 +161,7 @@ function renderFiles(path, folders, files) {
         output += renderRow(nameHTML, size, downloadLink);
     }
 
-    contentElement.innerHTML = output;
+    replaceHtml("content", output);
 }
 
 function getIconClass(icon_type){
