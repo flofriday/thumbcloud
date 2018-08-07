@@ -53,7 +53,7 @@ fn upload(req: HttpRequest<AppState>) -> FutureResponse<HttpResponse> {
             .collect()
             .map(|sizes| HttpResponse::Ok().json(sizes))
             .map_err(|e| {
-                println!("failed: {}", e);
+                println!("Upload failed: {}", e);
                 e
             }),
     )

@@ -5,9 +5,29 @@ use actix_web::*;
 use futures::future;
 use futures::{Future, Stream};
 use std::fs;
+use std::io;
 use std::io::Write;
+use std::path::{Path, PathBuf};
 
 use config::Config;
+
+// This function is a secure version of the join method for PathBuf. The standart join method can
+// allow path tranversal, this function doesn't.
+fn secure_join<P: AsRef<Path>>(first: PathBuf, second: P) -> Result<PathBuf, io::Error> {
+    let mut result = first.clone();
+    result = result.join(second);
+    result = result.canonicalize()?;
+
+    // Check if first is still a parent of result
+    if result.starts_with(first) {
+        Ok(result)
+    } else {
+        Err(io::Error::new(
+            io::ErrorKind::Other,
+            "Paths are not securely joinable",
+        ))
+    }
+}
 
 fn save_file(
     field: multipart::Field<actix_web::dev::Payload>,
@@ -22,12 +42,12 @@ fn save_file(
         }
     };
 
-    let mut file_name: Vec<u8> = Vec::new();
+    let mut raw_file_name: Vec<u8> = Vec::new();
     let mut file_path = String::new();
 
     for i in raw.iter() {
         match i {
-            Filename(_, _, a) => file_name = a.to_vec(),
+            Filename(_, _, a) => raw_file_name = a.to_vec(),
             Ext(name, path) => {
                 if name == "name" {
                     file_path = path.trim().to_string();
@@ -36,22 +56,37 @@ fn save_file(
         }
     }
 
-    if file_name.len() == 0 {
+    if raw_file_name.len() == 0 {
         return Box::new(future::err(error::ErrorInternalServerError(
             "no valid file",
         )));
     }
 
-    let file_name = match String::from_utf8(file_name.clone()) {
+    let file_name = PathBuf::from(match String::from_utf8(raw_file_name.clone()) {
         Ok(n) => n,
         Err(e) => return Box::new(future::err(error::ErrorInternalServerError(e))),
+    });
+
+    // Check if the filename is just a filename without a path
+    let pure_file_name = match file_name.file_name() {
+        Some(name) => name,
+        None => return Box::new(future::err(error::ErrorInternalServerError(""))),
     };
+    if pure_file_name != file_name {
+        return Box::new(future::err(error::ErrorInternalServerError("")));
+    }
+
 
     println!("Upload: {:?}", file_name);
 
-    //TODO: WARNING the following line is not secure and can be abused for path tranversal attacks
-    let file_path = config.path.clone().join(file_path).join(file_name);
-    let mut file = match fs::File::create(file_path) {
+    let absolute_path = match secure_join(config.path.clone(), file_path) {
+        Ok(path) => {
+            path.join(file_name.clone())
+        }
+        Err(e) => return Box::new(future::err(error::ErrorInternalServerError(e))),
+    };
+
+    let mut file = match fs::File::create(absolute_path) {
         Ok(file) => file,
         Err(e) => return Box::new(future::err(error::ErrorInternalServerError(e))),
     };
