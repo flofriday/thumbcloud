@@ -70,7 +70,7 @@ ARGS:
 - [X] Parse commandline arguments
 
 ### v0.0.3
-- [ ] Upload files
+- [X] Upload files
 - [X] Automatic local IP detection
 - [X] File icons dependent on filetype
 - [X] Template engine for HTML files

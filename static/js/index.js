@@ -40,8 +40,6 @@ window.onhashchange = function(e) {
     }
 
     requestFiles(path);
-
-
 }
 
 // a faster alternative to element.innerHTML
@@ -77,6 +75,28 @@ newFolderSubmitElement.onclick = function(e) {
 uploadElement.onclick = function(e) {
     $('#uploadModal').modal('show');
 }
+
+var formElement = document.getElementById("fileForm");
+formElement.addEventListener('submit', function(ev) {
+
+    var oData = new FormData(formElement);
+
+    var oReq = new XMLHttpRequest();
+    oReq.open("POST", "upload", true);
+    oReq.onload = function(oEvent) {
+        if (oReq.status == 200) {
+            displayToast("Upload successfull", "");
+            requestFiles(currentPath);
+        } else {
+            displayError("Upload failed", "Unfortunately the upload of your file failed.");
+        }
+    };
+
+    $('#uploadModal').modal('hide');
+    oReq.send(oData);
+    ev.preventDefault();
+}, false);
+
 // This function sorts an array of objects
 // Usage: data.sort(sort_by('key', true, parseInt));
 var sort_by = function(field, reverse, primer){
@@ -103,10 +123,11 @@ function requestFiles(path) {
 
 function decode(input) {
     obj = JSON.parse(input)
-    path = obj.path 
-    if (path != '') {path += '/'}
 
     if (obj.action == 'sendFilelist') {
+        var path = obj.path;
+        if (path != '' && path.slice(-1) != '/') {path += '/'}
+
         currentPath = path;
         renderFiles(path, obj.folders, obj.files);
 

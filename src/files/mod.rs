@@ -170,7 +170,7 @@ pub fn get_new_folder_respond(path_end: String, config: &Config) -> String {
         }
     }
 
-    println!("Created Folder: {:?}", path_end);
+    println!("Creat Folder: {:?}", path_end);
 
     json!({
         "action": "sendNewFolder",
