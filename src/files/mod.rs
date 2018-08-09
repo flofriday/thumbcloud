@@ -4,7 +4,29 @@ use htmlescape;
 use pretty_bytes::converter::convert;
 use serde_json;
 use std::fs;
-use std::path::PathBuf;
+use std::io;
+use std::path::{Path, PathBuf};
+
+use config::Config;
+
+// This function is a secure version of the join method for PathBuf. The standart join method can
+// allow path tranversal, this function doesn't.
+pub fn secure_join<P: AsRef<Path>>(first: PathBuf, second: P) -> Result<PathBuf, io::Error> {
+    let mut result = first.clone();
+    result = result.join(second);
+    result = result.canonicalize()?;
+
+    // Check if first is still a parent of result
+    if result.starts_with(first) {
+        Ok(result)
+    } else {
+        println!("SECURITY: prevented path traversal attack");
+        Err(io::Error::new(
+            io::ErrorKind::Other,
+            "Paths are not securely joinable",
+        ))
+    }
+}
 
 #[derive(Serialize, Deserialize)]
 struct FolderItem {
@@ -63,19 +85,30 @@ impl FileRespond {
     }
 }
 
-pub fn get_file_respond(path: PathBuf, path_name: String) -> String {
+pub fn get_file_respond(path_end: String, config: &Config) -> String {
+
+    let path = match secure_join(config.path.clone(), path_end.clone()) {
+        Ok(path) => path,
+        Err(_) => {
+            return json!({
+                "action": "sendError",
+                "message": format!("Cannot read the given path: {:?}", path_end)
+            }).to_string();
+        }
+    };
+
     let entries = match fs::read_dir(&path) {
         Ok(e) => e,
         Err(_) => {
             return json!({
                 "action": "sendError",
-                "message": format!("Cannot read the given path: {:?}", path_name)
+                "message": format!("Cannot read the given path: {:?}", path_end)
             }).to_string();
         }
     };
 
-    println!("Open path: {:?}", path_name);
-    let mut respond = FileRespond::from_path(path_name);
+    println!("Open path: {:?}", path_end);
+    let mut respond = FileRespond::from_path(path_end);
 
     for entry in entries {
         if let Ok(entry) = entry {

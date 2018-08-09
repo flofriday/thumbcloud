@@ -5,29 +5,11 @@ use actix_web::*;
 use futures::future;
 use futures::{Future, Stream};
 use std::fs;
-use std::io;
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
 use config::Config;
-
-// This function is a secure version of the join method for PathBuf. The standart join method can
-// allow path tranversal, this function doesn't.
-fn secure_join<P: AsRef<Path>>(first: PathBuf, second: P) -> Result<PathBuf, io::Error> {
-    let mut result = first.clone();
-    result = result.join(second);
-    result = result.canonicalize()?;
-
-    // Check if first is still a parent of result
-    if result.starts_with(first) {
-        Ok(result)
-    } else {
-        Err(io::Error::new(
-            io::ErrorKind::Other,
-            "Paths are not securely joinable",
-        ))
-    }
-}
+use files::secure_join;
 
 fn save_file(
     field: multipart::Field<actix_web::dev::Payload>,
@@ -75,7 +57,6 @@ fn save_file(
     if pure_file_name != file_name {
         return Box::new(future::err(error::ErrorInternalServerError("")));
     }
-
 
     println!("Upload: {:?}", file_name);
 
