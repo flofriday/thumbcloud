@@ -61,9 +61,7 @@ fn save_file(
     println!("Upload: {:?}", file_name);
 
     let absolute_path = match secure_join(config.path.clone(), file_path) {
-        Ok(path) => {
-            path.join(file_name.clone())
-        }
+        Ok(path) => path.join(file_name.clone()),
         Err(e) => return Box::new(future::err(error::ErrorInternalServerError(e))),
     };
 

@@ -86,7 +86,6 @@ impl FileRespond {
 }
 
 pub fn get_file_respond(path_end: String, config: &Config) -> String {
-
     let path = match secure_join(config.path.clone(), path_end.clone()) {
         Ok(path) => path,
         Err(_) => {
@@ -138,4 +137,44 @@ pub fn get_file_respond(path_end: String, config: &Config) -> String {
                 "message": "Cannot parse content"
             }).to_string(),
     )
+}
+
+pub fn get_new_folder_respond(path_end: String, config: &Config) -> String {
+    let path_end = PathBuf::from(path_end);
+    let path_end_parent = match path_end.parent() {
+        Some(path) => path.to_path_buf(),
+        None => PathBuf::from(""),
+    };
+
+    match secure_join(config.path.clone(), path_end_parent) {
+        Ok(_) => (),
+        Err(_) => {
+            return json!({
+                "action": "sendNewFolder",
+                "created": false,
+                "message": "Cannot create new folder, because the path is invalid"
+            }).to_string()
+        }
+    };
+
+    let path = config.path.clone().join(path_end.clone());
+
+    match fs::create_dir(path) {
+        Ok(_) => (),
+        Err(e) => {
+            return json!({
+                "action": "sendNewFolder",
+                "created": false,
+                "message": format!("Cannot create new folder.<br<br>Exact Error: {}", e)
+            }).to_string();
+        }
+    }
+
+    println!("Created Folder: {:?}", path_end);
+
+    json!({
+        "action": "sendNewFolder",
+        "created": true,
+        "message": ""
+    }).to_string()
 }

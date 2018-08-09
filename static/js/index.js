@@ -1,10 +1,13 @@
-var newFolderElement = document.getElementById("new-folder")
+var newFolderElement = document.getElementById("newFolder")
+var newFolderSubmitElement = document.getElementById("newFolderSubmit")
+var newFolderTextElement = document.getElementById("newFolderText")
 var uploadElement = document.getElementById("upload")
-var fileUploadElement = document.getElementById("file-upload");
+var fileUploadElement = document.getElementById("fileUpload");
 
 var wsUri = 'ws:' + window.location.host + '/ws/';
 console.log('Trying to connect to: ' + wsUri);
 var conn = new WebSocket(wsUri);
+var currentPath = "";
 
 conn.onopen = function(e) {
     console.log('Connected.');
@@ -58,8 +61,17 @@ function replaceHtml(el, html) {
 
 newFolderElement.onclick = function(e) {
     e.preventDefault();
-    displayError('Not supported', 'This feature is not implemented yet, ' + 
-    'but it will be in the next version.')
+    newFolderTextElement.value = "";
+    $('#newFolderModal').modal('show');
+}
+
+newFolderSubmitElement.onclick = function(e) {
+    msg = {
+        "action": "requestNewFolder",
+        "path": currentPath + newFolderTextElement.value,
+    }
+
+    conn.send(JSON.stringify(msg));
 }
 
 uploadElement.onclick = function(e) {
@@ -95,11 +107,23 @@ function decode(input) {
     if (path != '') {path += '/'}
 
     if (obj.action == 'sendFilelist') {
+        currentPath = path;
         renderFiles(path, obj.folders, obj.files);
 
         // fileUpload can't have an empty path
         if (path == "") { path=" " }
         fileUploadElement.name = path;
+
+    } else if (obj.action == 'sendNewFolder') {
+        if (obj.created == true) {
+            requestFiles(currentPath);
+            displayToast("New Folder created sucessfully", "");
+        } else {
+            if (obj.message == undefined || obj.message == "") {
+                obj.message = "Cannot create new folder"
+            }
+            displayError("New Folder Error", obj.message)
+        }
 
     } else if (obj.action == 'sendError') {
         console.log('Got Error from Server:' + obj.message);
@@ -196,4 +220,10 @@ function displayErrorAndReload(header, message) {
     $('#errorReloadModal').on('hide.bs.modal', function (e) {
         window.location.reload();
     })
+}
+
+function displayToast(header, message, priority) {
+    $.toaster({ message: message, title: header, priority: priority, settings: {
+        timeout: 3000
+    }});
 }
