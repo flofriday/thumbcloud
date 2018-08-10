@@ -24,7 +24,7 @@ main() {
     cp target/$TARGET/release/thumbcloud $stage/
 
     # Thumbcloud: add static files to realease folder
-    cp static $stage/ -R
+    cp -R static/ $stage/ 
 
     cd $stage
     tar czf $src/$CRATE_NAME-$TRAVIS_TAG-$TARGET.tar.gz *
