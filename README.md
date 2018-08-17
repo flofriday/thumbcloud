@@ -14,9 +14,9 @@ Thumbcloud is my attempt to create an application to share files with friends an
 same network. Moreover, they don't need to install any additional software (all they need is a 
 webbrowser).
 
-__Disclaimer__: The software still is in early development and misses some important features.
-Furthermore, there are some bugs and maybe even security flaws. 
-In a nutshell, you shouldn't use the software yet in "production", but feel free to try it out.
+__Disclaimer__: The software is still in early development and misses some features. Furthermore,
+there are few bugs and maybe even security flaws. In a nutshell, you shouldn't use the software on
+an untrusted network nor with sensitive data, but feel free to try it out.
 
 ## Install
 Just download the [latest release](https://github.com/flofriday/thumbcloud/releases) and unpack it.
@@ -77,12 +77,16 @@ ARGS:
 - [X] System page
 - [X] 404 page
 
+### v0.0.4
+- [ ] Use clippy to improve code quality
+- [ ] Add detailed documentation
+- [ ] Add contribution guidelines
+
 ### v0.1.0
 - [ ] Optimize for mobile devices
 - [ ] GUI for server
 - [ ] Drag & Drop support
 - [ ] Add Logo
-- [ ] Add detailed documentation
 - [ ] Product Website
 
 ### after v0.1.0

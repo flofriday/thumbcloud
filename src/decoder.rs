@@ -16,7 +16,7 @@ pub fn decode(input: String, config: &Config) -> String {
         path_end.remove(0);
         path_end.pop();
 
-        return files::get_file_respond(path_end, config);
+        files::get_file_respond(path_end, config);
     } else if data["action"] == "requestNewFolder" {
         let mut path_end = data["path"].to_string();
 
