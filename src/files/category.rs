@@ -3,7 +3,7 @@
 // Possible answers of this function are:
 // audio, archive, code, default, document, image, presentation, pdf,
 // spreedsheet, video
-pub fn get_from_name(file_name: &String) -> String {
+pub fn get_from_name(file_name: &str) -> String {
     let extension_lists = [
         (
             "audio",
@@ -1238,8 +1238,8 @@ pub fn get_from_name(file_name: &String) -> String {
         index += 1; // To exclude the point
         let extension = &file_name[index..].to_lowercase();
 
-        for list in extension_lists.iter() {
-            for entry in list.1.iter() {
+        for list in &extension_lists {
+            for entry in &list.1 {
                 if extension == entry {
                     return String::from(list.0);
                 }

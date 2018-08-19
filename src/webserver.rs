@@ -78,7 +78,7 @@ fn about(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit about");
 
     let header =
-        if &req.state().config.app_name.to_lowercase() == &env!("CARGO_PKG_NAME").to_lowercase() {
+        if req.state().config.app_name.to_lowercase() == env!("CARGO_PKG_NAME").to_lowercase() {
             format!("About {}", &req.state().config.app_name)
         } else {
             format!(
@@ -91,7 +91,7 @@ fn about(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     let content = AboutTemplate {
         app_name: &req.state().config.app_name,
         page: "About",
-        header: header,
+        header,
         description: env!("CARGO_PKG_DESCRIPTION"),
         version: env!("CARGO_PKG_VERSION"),
         license: "MIT",
@@ -144,10 +144,10 @@ fn default(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
 
 fn ws_route(req: &HttpRequest<AppState>) -> Result<HttpResponse, Error> {
     let config = req.state().config.clone();
-    ws::start(&req, WsSession { config: config })
+    ws::start(&req, WsSession { config })
 }
 
-fn print_bind_error(err: io::Error, addr: &SocketAddr) {
+fn print_bind_error(err: &io::Error, addr: &SocketAddr) {
     println!(
         "\n
             BIND ERROR: \"{}\" 
@@ -162,7 +162,7 @@ fn print_bind_error(err: io::Error, addr: &SocketAddr) {
                permission to use it, in which case `sudo thumbcloud` should work
             --------------------------------------------------------------------
             \n",
-        err.get_ref().unwrap_or(&err),
+        err.get_ref().unwrap_or(err),
         addr
     )
 }
@@ -179,14 +179,14 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
     fn handle(&mut self, msg: ws::Message, ctx: &mut Self::Context) {
         match msg {
             ws::Message::Ping(msg) => ctx.pong(&msg),
-            ws::Message::Text(text) => ctx.text(decoder::decode(text, &self.config)),
+            ws::Message::Text(text) => ctx.text(decoder::decode(&text, &self.config)),
             ws::Message::Binary(bin) => ctx.binary(bin),
             _ => (),
         }
     }
 }
 
-pub fn run(config: Config) {
+pub fn run(config: &Config) {
     // TODO: there should be no need to create the conf variable here, because
     // config already has the path
     let server = match server::new(move || {
@@ -220,7 +220,7 @@ pub fn run(config: Config) {
     {
         Ok(server) => server,
         Err(e) => {
-            print_bind_error(e, &config.addr);
+            print_bind_error(&e, &config.addr);
             return;
         }
     };

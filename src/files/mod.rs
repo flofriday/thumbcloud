@@ -34,7 +34,7 @@ struct FolderItem {
 }
 
 impl FolderItem {
-    fn from_name(folder_name: String) -> FolderItem {
+    fn from_name(folder_name: &str) -> FolderItem {
         FolderItem {
             name: htmlescape::encode_minimal(&folder_name),
         }
@@ -49,7 +49,7 @@ struct FileItem {
 }
 
 impl FileItem {
-    fn from(file_name: String, bytes: u64) -> FileItem {
+    fn from(file_name: &str, bytes: u64) -> FileItem {
         FileItem {
             category: category::get_from_name(&file_name),
             name: htmlescape::encode_minimal(&file_name),
@@ -57,7 +57,7 @@ impl FileItem {
         }
     }
 
-    fn from_name(file_name: String) -> FileItem {
+    fn from_name(file_name: &str) -> FileItem {
         FileItem {
             category: category::get_from_name(&file_name),
             name: htmlescape::encode_minimal(&file_name),
@@ -75,7 +75,7 @@ struct FileRespond {
 }
 
 impl FileRespond {
-    fn from_path(path_name: String) -> FileRespond {
+    fn from_path(path_name: &str) -> FileRespond {
         FileRespond {
             action: "sendFilelist".to_string(),
             path: htmlescape::encode_minimal(&path_name),
@@ -85,8 +85,8 @@ impl FileRespond {
     }
 }
 
-pub fn get_file_respond(path_end: String, config: &Config) -> String {
-    let path = match secure_join(config.path.clone(), path_end.clone()) {
+pub fn get_file_respond(path_end: &str, config: &Config) -> String {
+    let path = match secure_join(config.path.clone(), PathBuf::from(path_end)) {
         Ok(path) => path,
         Err(_) => {
             return json!({
@@ -114,14 +114,14 @@ pub fn get_file_respond(path_end: String, config: &Config) -> String {
             if let Ok(file_type) = entry.file_type() {
                 if let Ok(file_name) = entry.file_name().into_string() {
                     if file_type.is_dir() {
-                        respond.folders.push(FolderItem::from_name(file_name));
+                        respond.folders.push(FolderItem::from_name(&file_name));
                     } else {
                         let item: FileItem;
 
                         if let Ok(meta) = entry.metadata() {
-                            item = FileItem::from(file_name, meta.len())
+                            item = FileItem::from(&file_name, meta.len())
                         } else {
-                            item = FileItem::from_name(file_name);
+                            item = FileItem::from_name(&file_name);
                         }
 
                         respond.files.push(item);
@@ -131,15 +131,15 @@ pub fn get_file_respond(path_end: String, config: &Config) -> String {
         }
     }
 
-    serde_json::to_string(&respond).unwrap_or(
+    serde_json::to_string(&respond).unwrap_or_else(|_| {
         json!({
-                "action": "sendError",
-                "message": "Cannot parse content"
-            }).to_string(),
-    )
+            "action": "sendError",
+            "message": "Cannot parse content"
+        }).to_string()
+    })
 }
 
-pub fn get_new_folder_respond(path_end: String, config: &Config) -> String {
+pub fn get_new_folder_respond(path_end: &str, config: &Config) -> String {
     let path_end = PathBuf::from(path_end);
     let path_end_parent = match path_end.parent() {
         Some(path) => path.to_path_buf(),

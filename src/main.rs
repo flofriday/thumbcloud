@@ -27,5 +27,5 @@ pub mod webserver;
 
 fn main() {
     let config = config::parse_arguments();
-    webserver::run(config);
+    webserver::run(&config);
 }

@@ -27,7 +27,7 @@ fn save_file(
     let mut raw_file_name: Vec<u8> = Vec::new();
     let mut file_path = String::new();
 
-    for i in raw.iter() {
+    for i in &raw {
         match i {
             Filename(_, _, a) => raw_file_name = a.to_vec(),
             Ext(name, path) => {
@@ -38,7 +38,7 @@ fn save_file(
         }
     }
 
-    if raw_file_name.len() == 0 {
+    if raw_file_name.is_empty() {
         return Box::new(future::err(error::ErrorInternalServerError(
             "no valid file",
         )));
@@ -89,9 +89,9 @@ fn save_file(
     )
 }
 
-pub fn handle_multipart_item<'a>(
+pub fn handle_multipart_item(
     item: multipart::MultipartItem<actix_web::dev::Payload>,
-    config: &'a Config,
+    config: &Config,
 ) -> Box<Stream<Item = i64, Error = Error>> {
     let confignew = config.clone();
 

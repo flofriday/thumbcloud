@@ -13,7 +13,7 @@ pub struct Config {
 }
 
 impl Config {
-    fn from_matches(matches: ArgMatches) -> Config {
+    fn from_matches(matches: &ArgMatches) -> Config {
         let crate_name: String = {
             // Capitalize the first character of the crate name
             let s1 = env!("CARGO_PKG_NAME");
@@ -29,7 +29,7 @@ impl Config {
                 Some(name) => String::from(correct_invalid_name(name, &crate_name)),
                 None => crate_name.clone(),
             },
-            crate_name: crate_name,
+            crate_name,
             start_time: SystemTime::now(),
         }
     }
@@ -39,10 +39,10 @@ impl Clone for Config {
     fn clone(&self) -> Config {
         Config {
             path: self.path.clone(),
-            addr: self.addr.clone(),
+            addr: self.addr,
             app_name: self.app_name.clone(),
             crate_name: self.crate_name.clone(),
-            start_time: self.start_time.clone(),
+            start_time: self.start_time,
         }
     }
 }
@@ -59,7 +59,7 @@ fn get_address(input_address: Option<&str>) -> SocketAddr {
 
     let local_ip = machine_ip::get();
     SocketAddr::new(
-        local_ip.unwrap_or(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1))),
+        local_ip.unwrap_or_else(|| IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1))),
         8080,
     )
 }
@@ -85,15 +85,12 @@ fn is_valid_path(input: String) -> Result<(), String> {
         ));
     }
 
-    Err(String::from(format!(
-        "Could not locate the given directory: {}",
-        input
-    )))
+    Err(format!("Could not locate the given directory: {}", input))
 }
 
 fn is_valid_address(input: String) -> Result<(), String> {
     if let Ok(mut socket_iter) = input.to_socket_addrs() {
-        if let Some(_) = socket_iter.next() {
+        if socket_iter.next().is_some() {
             return Ok(());
         }
     }
@@ -128,5 +125,5 @@ pub fn parse_arguments() -> Config {
         .setting(AppSettings::ColorAlways)
         .get_matches();
 
-    Config::from_matches(matches)
+    Config::from_matches(&matches)
 }

@@ -2,27 +2,27 @@ use std::time::SystemTime;
 
 pub fn get_os<'a>() -> &'a str {
     if cfg!(target_os = "windows") {
-        return "Windows";
+        "Windows"
     } else if cfg!(target_os = "macos") {
-        return "macOS";
+        "macOS"
     } else if cfg!(target_os = "ios") {
-        return "iOS";
+        "iOS"
     } else if cfg!(target_os = "linux") {
-        return "Linux";
+        "Linux"
     } else if cfg!(target_os = "android") {
-        return "Android";
+        "Android"
     } else if cfg!(target_os = "freebsd") {
-        return "FreeBSD";
+        "FreeBSD"
     } else if cfg!(target_os = "dragonfly") {
-        return "DragonFly BSD";
+        "DragonFly BSD"
     } else if cfg!(target_os = "bitrig") {
-        return "Bitrig";
+        "Bitrig"
     } else if cfg!(target_os = "openbsd") {
-        return "OpenBSD";
+        "OpenBSD"
     } else if cfg!(target_os = "netbsd") {
-        return "NetBSD";
+        "NetBSD"
     } else {
-        return "Unknown";
+        "Unknown"
     }
 }
 
