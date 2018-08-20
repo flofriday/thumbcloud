@@ -4,6 +4,7 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr, ToSocketAddrs};
 use std::path::PathBuf;
 use std::time::SystemTime;
 
+#[derive(Clone)]
 pub struct Config {
     pub path: PathBuf,
     pub addr: SocketAddr,
@@ -31,18 +32,6 @@ impl Config {
             },
             crate_name,
             start_time: SystemTime::now(),
-        }
-    }
-}
-
-impl Clone for Config {
-    fn clone(&self) -> Config {
-        Config {
-            path: self.path.clone(),
-            addr: self.addr,
-            app_name: self.app_name.clone(),
-            crate_name: self.crate_name.clone(),
-            start_time: self.start_time,
         }
     }
 }
