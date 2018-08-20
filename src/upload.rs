@@ -58,8 +58,6 @@ fn save_file(
         return Box::new(future::err(error::ErrorInternalServerError("")));
     }
 
-    println!("Upload: {:?}", file_name);
-
     let absolute_path = match secure_join(config.path.clone(), file_path) {
         Ok(path) => path.join(file_name.clone()),
         Err(e) => return Box::new(future::err(error::ErrorInternalServerError(e))),
@@ -69,6 +67,8 @@ fn save_file(
         Ok(file) => file,
         Err(e) => return Box::new(future::err(error::ErrorInternalServerError(e))),
     };
+
+    println!("Upload: \"{}{}\"", file_path, file_name.display());
 
     Box::new(
         field
