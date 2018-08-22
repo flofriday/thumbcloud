@@ -78,7 +78,7 @@ ARGS:
 - [X] 404 page
 
 ### v0.0.4
-- [ ] Use clippy to improve code quality
+- [X] Use clippy to improve code quality
 - [ ] Add detailed documentation
 - [ ] Add contribution guidelines
 

@@ -62,6 +62,8 @@ fn correct_invalid_name<'a>(app_name: &'a str, crate_name: &'a str) -> &'a str {
     }
 }
 
+ 
+#[cfg_attr(feature = "cargo-clippy", allow(needless_pass_by_value))] //because clap allways passes a String
 fn is_valid_path(input: String) -> Result<(), String> {
     let path = PathBuf::from(&input);
     if path.is_dir() {
@@ -77,6 +79,7 @@ fn is_valid_path(input: String) -> Result<(), String> {
     Err(format!("Could not locate the given directory: {}", input))
 }
 
+#[cfg_attr(feature = "cargo-clippy", allow(needless_pass_by_value))] //because clap allways passes a String
 fn is_valid_address(input: String) -> Result<(), String> {
     if let Ok(mut socket_iter) = input.to_socket_addrs() {
         if socket_iter.next().is_some() {
