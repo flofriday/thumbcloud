@@ -62,7 +62,6 @@ fn correct_invalid_name<'a>(app_name: &'a str, crate_name: &'a str) -> &'a str {
     }
 }
 
- 
 #[cfg_attr(feature = "cargo-clippy", allow(needless_pass_by_value))] //because clap allways passes a String
 fn is_valid_path(input: String) -> Result<(), String> {
     let path = PathBuf::from(&input);

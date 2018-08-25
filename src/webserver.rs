@@ -17,10 +17,8 @@ struct AppState {
 }
 
 impl AppState {
-    fn new() -> AppState {
-        AppState {
-            config: config::parse_arguments(),
-        }
+    fn from_config(config: Config) -> AppState {
+        AppState { config }
     }
 }
 
@@ -42,7 +40,7 @@ fn index(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
-fn upload(req: HttpRequest<AppState>) -> FutureResponse<HttpResponse> {
+fn upload(req: &HttpRequest<AppState>) -> FutureResponse<HttpResponse> {
     let config = req.state().config.clone();
 
     Box::new(
@@ -187,23 +185,30 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
 }
 
 pub fn run(config: &Config) {
-    // TODO: there should be no need to create the conf variable here, because
-    // config already has the path
+    //NOTE: config2 and config3 are exact copies of the config struct passed to this function.
+    //I know that this code looks more that unusual, and is just a copy-hell, but it was the only
+    //way I could come up with to parse the commandline arguments just once.
+    //Feel free to improve this code.
+
+    let config2 = config.clone();
     let server = match server::new(move || {
-        App::with_state(AppState::new())
+        let config3 = config2.clone();
+        App::with_state(AppState::from_config(config2.clone()))
             .resource("/about", |r| r.f(about))
             .resource("/system", |r| r.f(system))
             .resource("/ws/", |r| r.route().f(ws_route))
             .handler("/download", move |req: &HttpRequest<AppState>| {
-                let conf = config::parse_arguments();
-                StaticFiles::new(conf.path).unwrap().handle(&req).map(|ok| {
-                    ok.map(|mut response| {
-                        response
-                            .headers_mut()
-                            .insert(CONTENT_DISPOSITION, "attachment".parse().unwrap());
-                        response
-                    }).responder()
-                })
+                StaticFiles::new(config3.clone().path)
+                    .unwrap()
+                    .handle(&req)
+                    .map(|ok| {
+                        ok.map(|mut response| {
+                            response
+                                .headers_mut()
+                                .insert(CONTENT_DISPOSITION, "attachment".parse().unwrap());
+                            response
+                        }).responder()
+                    })
             })
             .handler(
                 "/static",
@@ -211,10 +216,10 @@ pub fn run(config: &Config) {
                     .unwrap()
                     .default_handler(default),
             )
-            .resource("/upload", |r| r.method(http::Method::POST).with(upload))
-            .resource("/", |r| {
-                r.method(Method::GET).f(index);
+            .resource("/upload", |r| {
+                r.method(Method::POST).f(upload);
             })
+            .resource("/", |r| r.route().f(index))
             .default_resource(|r| r.f(default))
     }).bind(&config.addr)
     {
