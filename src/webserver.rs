@@ -175,11 +175,8 @@ impl Actor for WsSession {
 
 impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
     fn handle(&mut self, msg: ws::Message, ctx: &mut Self::Context) {
-        match msg {
-            ws::Message::Ping(msg) => ctx.pong(&msg),
-            ws::Message::Text(text) => ctx.text(decoder::decode(&text, &self.config)),
-            ws::Message::Binary(bin) => ctx.binary(bin),
-            _ => (),
+        if let ws::Message::Text(text) = msg {
+            ctx.text(decoder::decode(&text, &self.config))
         }
     }
 }

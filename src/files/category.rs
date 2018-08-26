@@ -3,7 +3,11 @@
 // Possible answers of this function are:
 // audio, archive, code, default, document, image, presentation, pdf,
 // spreedsheet, video
-pub fn get_from_name(file_name: &str) -> String {
+pub fn get_from_name(file_name: &str, simple_icons: bool) -> String {
+    if simple_icons {
+        return String::from("default");
+    }
+
     let extension_lists = [
         (
             "audio",

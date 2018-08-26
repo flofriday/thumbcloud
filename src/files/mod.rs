@@ -49,17 +49,17 @@ struct FileItem {
 }
 
 impl FileItem {
-    fn from(file_name: &str, bytes: u64) -> FileItem {
+    fn from(file_name: &str, simple_icons: bool, bytes: u64) -> FileItem {
         FileItem {
-            category: category::get_from_name(&file_name),
+            category: category::get_from_name(&file_name, simple_icons),
             name: htmlescape::encode_minimal(&file_name),
             size: convert(bytes as f64).replace(" B", " bytes"),
         }
     }
 
-    fn from_name(file_name: &str) -> FileItem {
+    fn from_name(file_name: &str, simple_icons: bool) -> FileItem {
         FileItem {
-            category: category::get_from_name(&file_name),
+            category: category::get_from_name(&file_name, simple_icons),
             name: htmlescape::encode_minimal(&file_name),
             size: String::new(),
         }
@@ -119,9 +119,9 @@ pub fn get_file_respond(path_end: &str, config: &Config) -> String {
                         let item: FileItem;
 
                         if let Ok(meta) = entry.metadata() {
-                            item = FileItem::from(&file_name, meta.len())
+                            item = FileItem::from(&file_name, config.simple_icons, meta.len())
                         } else {
-                            item = FileItem::from_name(&file_name);
+                            item = FileItem::from_name(&file_name, config.simple_icons);
                         }
 
                         respond.files.push(item);

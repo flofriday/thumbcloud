@@ -43,11 +43,12 @@ Feel to free ignore those warnings.
 
 ```
 USAGE:
-    thumbcloud [OPTIONS] <INPUT>
+    thumbcloud [FLAGS] [OPTIONS] <INPUT>
 
 FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+    -h, --help            Prints help information
+        --simple-icons    Gives all files the same icons (improves performance)
+    -V, --version         Prints version information
 
 OPTIONS:
     -a, --addr <address>    Sets the IP address and port the server will launch
