@@ -3,6 +3,7 @@ use actix_web::*;
 use actix_web::{dev::Handler, error::Error, fs::StaticFiles, http::header::*, http::Method};
 use askama::Template;
 use futures::{Future, Stream};
+use open;
 use std::io;
 use std::net::SocketAddr;
 
@@ -227,6 +228,16 @@ pub fn run(config: &Config) {
         }
     };
 
-    println!("Started {} at: {}\n", config.app_name, config.addr);
+    println!("Started {} at: {}", config.app_name, config.addr);
+
+    if config.open_browser {
+        match open::that(format!("http://{}", config.addr)) {
+            Ok(_) => println!("Opened {} in the webbrowser", config.app_name),
+            Err(_) => println!("Could not open {} in the webbrowser", config.app_name),
+        }
+    }
+
+    println!("\n");
+
     server.run();
 }

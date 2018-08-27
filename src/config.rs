@@ -11,6 +11,7 @@ pub struct Config {
     pub crate_name: String,
     pub simple_icons: bool,
     pub start_time: SystemTime,
+    pub open_browser: bool,
     pub path: PathBuf,
 }
 
@@ -32,6 +33,7 @@ impl Config {
                 None => crate_name.clone(),
             },
             simple_icons: matches.is_present("simple icons"),
+            open_browser: matches.is_present("open"),
             crate_name,
             start_time: SystemTime::now(),
         }
@@ -119,6 +121,11 @@ pub fn parse_arguments() -> Config {
             Arg::with_name("simple icons")
                 .help("Gives all files the same icons (improves performance)")
                 .long("simple-icons"),
+        )
+        .arg(
+            Arg::with_name("open")
+                .help("Opens thumbcloud in the default webbrowser")
+                .long("open"),
         )
         .setting(AppSettings::ColorAlways)
         .get_matches();

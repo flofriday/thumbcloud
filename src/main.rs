@@ -9,6 +9,7 @@ extern crate clap;
 extern crate futures;
 extern crate htmlescape;
 extern crate machine_ip;
+extern crate open;
 extern crate pretty_bytes;
 extern crate serde;
 

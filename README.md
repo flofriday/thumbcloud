@@ -29,17 +29,15 @@ Feel to free ignore those warnings.
 2. [Download the repository](https://github.com/flofriday/thumbcloud/archive/master.zip)
 3. Unzip the compressed file and run `cargo build --release`
 4. Run the executable<br> 
-   Windows PowerShell: `.\target\release\thumbcloud.exe $HOME`<br>
-   Windows CMD: `.\target\release\thumbcloud.exe %HOMEPATH%`<br>
-   Unix (macOS, Linux, FreeBSD): `./target/release/thumbcloud $HOME`
-5. Open a Webbrowser and enter in the addressbar the IP address shown in the terminal
+   Windows PowerShell: `.\target\release\thumbcloud.exe $HOME --open`<br>
+   Windows CMD: `.\target\release\thumbcloud.exe %HOMEPATH% --open`<br>
+   Unix (macOS, Linux, FreeBSD): `./target/release/thumbcloud $HOME --open`
 
 ## Usage
 1. Open a terminal in the directory with the executable
 2. Windows CMD: `.\thumbcloud.exe %HOMEPATH%`<br>
    Windows PowerShell: `.\thumbcloud.exe $HOME`<br>
-   Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME`
-3. Open a Webbrowser and enter in the addressbar the IP address shown in the terminal
+   Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME --open`
 
 ```
 USAGE:
@@ -47,6 +45,7 @@ USAGE:
 
 FLAGS:
     -h, --help            Prints help information
+        --open            Opens thumbcloud in the default webbrowser
         --simple-icons    Gives all files the same icons (improves performance)
     -V, --version         Prints version information
 
@@ -56,6 +55,7 @@ OPTIONS:
 
 ARGS:
     <INPUT>    Sets the path thumbcloud will share
+
 ```
 
 ## Feature List 

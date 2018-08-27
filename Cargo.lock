@@ -767,6 +767,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "open"
+version = "1.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "winapi 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
 name = "owning_ref"
 version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1081,6 +1089,7 @@ dependencies = [
  "futures 0.1.23 (registry+https://github.com/rust-lang/crates.io-index)",
  "htmlescape 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "machine-ip 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "open 1.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "pretty-bytes 0.2.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.71 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.71 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1514,6 +1523,7 @@ dependencies = [
 "checksum nodrop 0.1.12 (registry+https://github.com/rust-lang/crates.io-index)" = "9a2228dca57108069a5262f2ed8bd2e82496d2e074a06d1ccc7ce1687b6ae0a2"
 "checksum nom 4.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "898696750eb5c3ce5eb5afbfbe46e7f7c4e1936e19d3e97be4b7937da7b6d114"
 "checksum num_cpus 1.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "c51a3322e4bca9d212ad9a158a02abc6934d005490c054a2778df73a70aa0a30"
+"checksum open 1.2.2 (registry+https://github.com/rust-lang/crates.io-index)" = "eedfa0ca7b54d84d948bfd058b8f82e767d11f362dd78c36866fd1f69c175867"
 "checksum owning_ref 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "cdf84f41639e037b484f93433aa3897863b561ed65c6e59c7073d7c561710f37"
 "checksum parking_lot 0.6.3 (registry+https://github.com/rust-lang/crates.io-index)" = "69376b761943787ebd5cc85a5bc95958651a22609c5c1c2b65de21786baec72b"
 "checksum parking_lot_core 0.2.14 (registry+https://github.com/rust-lang/crates.io-index)" = "4db1a8ccf734a7bce794cc19b3df06ed87ab2f3907036b693c68f56b4d4537fa"
