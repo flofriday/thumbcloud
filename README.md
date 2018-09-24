@@ -35,8 +35,8 @@ Feel to free ignore those warnings.
 
 ## Usage
 1. Open a terminal in the directory with the executable
-2. Windows CMD: `.\thumbcloud.exe %HOMEPATH%`<br>
-   Windows PowerShell: `.\thumbcloud.exe $HOME`<br>
+2. Windows CMD: `.\thumbcloud.exe %HOMEPATH% --open`<br>
+   Windows PowerShell: `.\thumbcloud.exe $HOME --open`<br>
    Unix (macOS, Linux FreeBSD): `./thumbcloud $HOME --open`
 
 ```
