@@ -58,7 +58,7 @@ ARGS:
 
 ```
 
-## Feature List 
+## Feature List / TODO
 ### v0.0.1
 - [X] Viewing files in the webbrowser
 
@@ -86,14 +86,19 @@ ARGS:
 ### v0.1.0
 - [ ] Optimize for mobile devices
 - [ ] GUI for server
-- [ ] Drag & Drop support
 - [ ] Add Logo
 - [ ] Product Website
 
 ### after v0.1.0
 - [ ] Download folders as .zip
 - [ ] View file content without downloading
+- [ ] File Operations
+    - [ ] Drag & Drop
+    - [ ] Copy Paste
+    - [ ] Move
+    - [ ] Delete
+    - [ ] Find files
 - [ ] Server Settings
     - [ ] Set max connections
     - [ ] Restrict to only download, only view files
-    - [ ] Only access with password
+    - [ ] Only access with password (basic auth)
