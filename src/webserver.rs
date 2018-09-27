@@ -37,7 +37,7 @@ fn index(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
         app_name: &req.state().config.app_name,
         page: "Index",
     }.render()
-        .unwrap();
+    .unwrap();
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
@@ -97,7 +97,7 @@ fn about(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
         repository: env!("CARGO_PKG_HOMEPAGE"),
         repository_name: "flofriday/thumbcloud",
     }.render()
-        .unwrap();
+    .unwrap();
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
@@ -119,7 +119,7 @@ fn system(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
         addr: &req.state().config.addr,
         os: system::get_os(),
     }.render()
-        .unwrap();
+    .unwrap();
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
@@ -137,7 +137,7 @@ fn default(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
         app_name: &req.state().config.app_name,
         page: "Page not found",
     }.render()
-        .unwrap();
+    .unwrap();
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
@@ -207,17 +207,14 @@ pub fn run(config: &Config) {
                             response
                         }).responder()
                     })
-            })
-            .handler(
+            }).handler(
                 "/static",
                 StaticFiles::new("./static/")
                     .unwrap()
                     .default_handler(default),
-            )
-            .resource("/upload", |r| {
+            ).resource("/upload", |r| {
                 r.method(Method::POST).f(upload);
-            })
-            .resource("/", |r| r.route().f(index))
+            }).resource("/", |r| r.route().f(index))
             .default_resource(|r| r.f(default))
     }).bind(&config.addr)
     {

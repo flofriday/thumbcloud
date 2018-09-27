@@ -81,8 +81,7 @@ fn save_file(
                         error::MultipartError::Payload(error::PayloadError::Io(e))
                     });
                 future::result(rt)
-            })
-            .map_err(|e| {
+            }).map_err(|e| {
                 println!("save_file failed, {:?}", e);
                 error::ErrorInternalServerError(e)
             }),
