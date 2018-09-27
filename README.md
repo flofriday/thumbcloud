@@ -58,6 +58,9 @@ ARGS:
 
 ```
 
+## Contributing
+Check out [CONTRIBUTING.md)](CONTRIBUTING.md) for more information.
+
 ## Feature List / TODO
 ### v0.0.1
 - [X] Viewing files in the webbrowser
@@ -81,7 +84,7 @@ ARGS:
 ### v0.0.4
 - [X] Use clippy to improve code quality
 - [ ] Add detailed documentation
-- [ ] Add contribution guidelines
+- [X] Add contribution guidelines
 
 ### v0.1.0
 - [ ] Optimize for mobile devices
