@@ -26,7 +26,9 @@ impl Config {
         };
 
         Config {
-            path: PathBuf::from(matches.value_of("INPUT").unwrap()),
+            path: PathBuf::from(matches.value_of("INPUT").unwrap())
+                .canonicalize()
+                .unwrap(),
             addr: get_address(matches.value_of("address")),
             app_name: match matches.value_of("name") {
                 Some(name) => String::from(correct_invalid_name(name, &crate_name)),
@@ -70,7 +72,14 @@ fn correct_invalid_name<'a>(app_name: &'a str, crate_name: &'a str) -> &'a str {
 fn is_valid_path(input: String) -> Result<(), String> {
     let path = PathBuf::from(&input);
     if path.is_dir() {
-        return Ok(());
+        if path.exists() {
+            return Ok(());
+        } else {
+            return Err(format!(
+                "The given path \"{}\" does not exist",
+                path.display()
+            ));
+        }
     }
 
     if path.is_file() {
@@ -101,33 +110,28 @@ pub fn parse_arguments() -> Config {
                 .required(true)
                 .validator(is_valid_path)
                 .index(1),
-        )
-        .arg(
+        ).arg(
             Arg::with_name("address")
                 .help("Sets the IP address and port the server will launch")
                 .short("a")
                 .long("addr")
                 .validator(is_valid_address)
                 .takes_value(true),
-        )
-        .arg(
+        ).arg(
             Arg::with_name("name")
                 .help("Sets a custom servername")
                 .short("n")
                 .long("name")
                 .takes_value(true),
-        )
-        .arg(
+        ).arg(
             Arg::with_name("simple icons")
                 .help("Gives all files the same icons (improves performance)")
                 .long("simple-icons"),
-        )
-        .arg(
+        ).arg(
             Arg::with_name("open")
                 .help("Opens thumbcloud in the default webbrowser")
                 .long("open"),
-        )
-        .setting(AppSettings::ColorAlways)
+        ).setting(AppSettings::ColorAlways)
         .get_matches();
 
     Config::from_matches(&matches)
