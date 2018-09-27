@@ -226,6 +226,7 @@ pub fn run(config: &Config) {
     };
 
     println!("Started {} at: {}", config.app_name, config.addr);
+    println!("Sharing path: {}", config.path.display());
 
     if config.open_browser {
         match open::that(format!("http://{}", config.addr)) {
