@@ -6,9 +6,10 @@ No matter if you want to report a bug, suggest a new feature or want to implemen
 
 ## Todo list
 There is a todo section in the README.md with features waiting to be implemented.
-(Please write an issue once you decided on which feature you want to work on. This way all developers now who works on which code.)
+(Please write an issue once you decided on which feature you want to work on. This way all developers know who works on which code.)
 
-You can also allways read the code and search for `TODO` comments
+You can also allways read the code and search for `TODO` comments.
+
 ## Contributing code
 * **Commented**: Public items must be commented.
 * **Documented**: Exposed items must have rustdoc comments with examples, if applicable.
