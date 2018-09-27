@@ -59,7 +59,7 @@ ARGS:
 ```
 
 ## Contributing
-Check out [CONTRIBUTING.md)](CONTRIBUTING.md) for more information.
+Check out [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ## Feature List / TODO
 ### v0.0.1
