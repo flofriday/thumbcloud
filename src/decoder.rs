@@ -5,6 +5,7 @@ use config::Config;
 use files;
 use system;
 
+/// Decodes websocket JSON messages from the client.
 pub fn decode(input: &str, config: &Config) -> String {
     let data: Value = serde_json::from_str(input).unwrap();
 

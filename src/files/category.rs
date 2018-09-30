@@ -1,8 +1,18 @@
-// This function detects a simple file-type from the file name. This step is
-// needed so the frontend knows which icon it should use.
-// Possible answers of this function are:
-// audio, archive, code, default, document, image, presentation, pdf,
-// spreedsheet, video
+// TODO: this could return a enum instead of a String
+/// This function detects a simple file-type from the file name. This step is
+/// needed so the frontend knows which icon it should use.
+///
+/// Possible answers of this function are:
+/// * audio
+/// * archive
+/// * code
+/// * default
+/// * document
+/// * image
+/// * presentation
+/// * pdf
+/// * spreedsheet
+/// * video
 pub fn get_from_name(file_name: &str, simple_icons: bool) -> String {
     if simple_icons {
         return String::from("default");
@@ -1251,5 +1261,6 @@ pub fn get_from_name(file_name: &str, simple_icons: bool) -> String {
         }
     }
 
+    // Return the default/fallback option
     String::from("default")
 }

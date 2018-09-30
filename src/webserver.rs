@@ -13,16 +13,19 @@ use decoder;
 use system;
 use upload;
 
+/// State of the App
 struct AppState {
     config: config::Config,
 }
 
 impl AppState {
+    /// Create an AppState object from a Thumbcloud Config object.
     fn from_config(config: Config) -> AppState {
         AppState { config }
     }
 }
 
+/// askama template for the index page
 #[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate<'a> {
@@ -30,6 +33,7 @@ struct IndexTemplate<'a> {
     page: &'a str,
 }
 
+/// actix-web route for the index page
 fn index(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit index");
 
@@ -41,6 +45,7 @@ fn index(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
+/// actix-web route for the upload
 fn upload(req: &HttpRequest<AppState>) -> FutureResponse<HttpResponse> {
     let config = req.state().config.clone();
 
@@ -58,6 +63,7 @@ fn upload(req: &HttpRequest<AppState>) -> FutureResponse<HttpResponse> {
     )
 }
 
+/// askama template for the about page
 #[derive(Template)]
 #[template(path = "about.html")]
 struct AboutTemplate<'a> {
@@ -73,6 +79,7 @@ struct AboutTemplate<'a> {
 
 // TODO: This code shouldn't be that hardcoded. The right way would be to load
 // and parse the Cargo.toml file at compile-time.
+/// actix-web route for the about page
 fn about(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit about");
 
@@ -101,6 +108,7 @@ fn about(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
+/// askama template for the system page
 #[derive(Template)]
 #[template(path = "system.html")]
 struct SystemTemplate<'a> {
@@ -110,6 +118,7 @@ struct SystemTemplate<'a> {
     os: &'a str,
 }
 
+/// actix-web route for the system page
 fn system(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit system");
 
@@ -123,6 +132,7 @@ fn system(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
+/// askama template for the 404 page
 #[derive(Template)]
 #[template(path = "default.html")]
 struct DefaultTemplate<'a> {
@@ -130,6 +140,7 @@ struct DefaultTemplate<'a> {
     page: &'a str,
 }
 
+/// actix-web route for the 404 page
 fn default(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     println!("Visit Page not found");
 
@@ -141,11 +152,13 @@ fn default(req: &HttpRequest<AppState>) -> Result<HttpResponse> {
     Ok(HttpResponse::Ok().content_type("text/html").body(content))
 }
 
+/// actix-web route for the websocket messages
 fn ws_route(req: &HttpRequest<AppState>) -> Result<HttpResponse, Error> {
     let config = req.state().config.clone();
     ws::start(&req, WsSession { config })
 }
 
+/// Print the bind error with helpful information
 fn print_bind_error(err: &io::Error, addr: &SocketAddr) {
     println!(
         "\n
@@ -166,6 +179,7 @@ fn print_bind_error(err: &io::Error, addr: &SocketAddr) {
     )
 }
 
+/// The state of the websocket communication
 struct WsSession {
     config: Config,
 }
@@ -175,6 +189,7 @@ impl Actor for WsSession {
 }
 
 impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
+    /// Sends the incomming websocket messages to the decoder function
     fn handle(&mut self, msg: ws::Message, ctx: &mut Self::Context) {
         if let ws::Message::Text(text) = msg {
             ctx.text(decoder::decode(&text, &self.config))
@@ -182,12 +197,14 @@ impl StreamHandler<ws::Message, ws::ProtocolError> for WsSession {
     }
 }
 
+/// Starts the server
 pub fn run(config: &Config) {
     //NOTE: config2 and config3 are exact copies of the config struct passed to this function.
     //I know that this code looks more that unusual, and is just a copy-hell, but it was the only
     //way I could come up with to parse the commandline arguments just once.
     //Feel free to improve this code.
 
+    //TODO: check if the static folder is available
     let config2 = config.clone();
     let server = match server::new(move || {
         let config3 = config2.clone();

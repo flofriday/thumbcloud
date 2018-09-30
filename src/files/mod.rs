@@ -1,4 +1,4 @@
-mod category;
+pub mod category;
 
 use htmlescape;
 use pretty_bytes::converter::convert;
@@ -9,8 +9,25 @@ use std::path::{Path, PathBuf};
 
 use config::Config;
 
-// This function is a secure version of the join method for PathBuf. The standart join method can
-// allow path tranversal, this function doesn't.
+// TODO: This function should work with paths that do not exist
+/// This function is a secure version of the join method for PathBuf. The standart join method can
+/// allow path tranversal, this function does not.
+///
+/// # Errors
+///
+/// * The paths are not secure joinable (path tranversal)
+/// * The joined path does not exist
+///
+/// # Examples
+///
+/// ```
+/// let path1 = Pathbuf::from("/home/");
+/// secure_join(path1, "flo"); // Returns Ok("/home/flo")
+///
+/// let path2 = Pathbuf::from("/home/");
+/// secure_join(path2, "../bin"); // Returns Err()
+///
+/// ```
 pub fn secure_join<P: AsRef<Path>>(first: PathBuf, second: P) -> Result<PathBuf, io::Error> {
     let mut result = first.clone();
     result = result.join(second);
@@ -34,6 +51,7 @@ struct FolderItem {
 }
 
 impl FolderItem {
+    /// Create a new FolderItem object from the name
     fn from_name(folder_name: &str) -> FolderItem {
         FolderItem {
             name: htmlescape::encode_minimal(&folder_name),
@@ -49,6 +67,7 @@ struct FileItem {
 }
 
 impl FileItem {
+    /// Create a new FileItem object from a name and size
     fn from(file_name: &str, simple_icons: bool, bytes: u64) -> FileItem {
         FileItem {
             category: category::get_from_name(&file_name, simple_icons),
@@ -57,6 +76,8 @@ impl FileItem {
         }
     }
 
+    /// Create a new FileItem object just fron the name. (Can be used when it is impossible to
+    /// read the size of the file.)
     fn from_name(file_name: &str, simple_icons: bool) -> FileItem {
         FileItem {
             category: category::get_from_name(&file_name, simple_icons),
@@ -75,6 +96,7 @@ struct FileRespond {
 }
 
 impl FileRespond {
+    /// Create an empty FileRespond with the action and path already set.
     fn from_path(path_name: &str) -> FileRespond {
         FileRespond {
             action: "sendFilelist".to_string(),
@@ -85,6 +107,7 @@ impl FileRespond {
     }
 }
 
+/// Returns a JSON object with the all folders and all files inside the requested path.
 pub fn get_file_respond(path_end: &str, config: &Config) -> String {
     let path = match secure_join(config.path.clone(), PathBuf::from(path_end)) {
         Ok(path) => path,
@@ -139,6 +162,21 @@ pub fn get_file_respond(path_end: &str, config: &Config) -> String {
     })
 }
 
+/// Returns a JSON object, which tells if the requested folder could have been created.
+/// ```
+/// // successfull
+/// {
+///     action: "sendNewFolder",
+///     created: true
+/// }
+///
+/// // failure
+/// {
+///     action: "sendNewFolder",
+///     created: false,
+///     message: "A message for the frontend"
+/// }
+/// ```
 pub fn get_new_folder_respond(path_end: &str, config: &Config) -> String {
     let path_end = PathBuf::from(path_end);
     let path_end_parent = match path_end.parent() {

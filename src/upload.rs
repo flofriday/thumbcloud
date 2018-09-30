@@ -11,6 +11,7 @@ use std::path::PathBuf;
 use config::Config;
 use files::secure_join;
 
+/// Saves the uploaded multipart file
 fn save_file(
     field: multipart::Field<actix_web::dev::Payload>,
     config: &Config,
@@ -88,6 +89,7 @@ fn save_file(
     )
 }
 
+/// Handles the multipart item
 pub fn handle_multipart_item(
     item: multipart::MultipartItem<actix_web::dev::Payload>,
     config: &Config,

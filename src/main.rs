@@ -26,6 +26,9 @@ pub mod system;
 pub mod upload;
 pub mod webserver;
 
+/// Starts the main steps of the application.
+/// 1. parse the command line arguments
+/// 2. start the server
 fn main() {
     let config = config::parse_arguments();
     webserver::run(&config);

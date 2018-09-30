@@ -4,6 +4,7 @@ use std::net::{IpAddr, Ipv4Addr, SocketAddr, ToSocketAddrs};
 use std::path::PathBuf;
 use std::time::SystemTime;
 
+/// Thumbcloud Configuration
 #[derive(Clone)]
 pub struct Config {
     pub addr: SocketAddr,
@@ -16,6 +17,7 @@ pub struct Config {
 }
 
 impl Config {
+    /// Create a Config object from the matches from clap.
     fn from_matches(matches: &ArgMatches) -> Config {
         let crate_name: String = {
             // Capitalize the first character of the crate name
@@ -42,6 +44,10 @@ impl Config {
     }
 }
 
+/// This function returns an Address.
+/// If the input_address is valid it will be returned as if.
+/// If the computer is on a network it local IP will be returned with the Port 8080.
+/// Else the address 127.0.0.1:8080 will be returned.
 fn get_address(input_address: Option<&str>) -> SocketAddr {
     // Return input address if it is a valid socket
     if let Some(input_address) = input_address {
@@ -59,6 +65,7 @@ fn get_address(input_address: Option<&str>) -> SocketAddr {
     )
 }
 
+/// Replaces the app_name with the crate_name if the app_name is invalid.
 fn correct_invalid_name<'a>(app_name: &'a str, crate_name: &'a str) -> &'a str {
     if app_name.trim().is_empty() {
         //Entered invalid name, reverting back to default cratename
@@ -68,6 +75,11 @@ fn correct_invalid_name<'a>(app_name: &'a str, crate_name: &'a str) -> &'a str {
     }
 }
 
+/// Checks if the input path is valid
+///
+/// # Errors
+/// * The path does not exist
+/// * The path points to a file
 #[cfg_attr(feature = "cargo-clippy", allow(needless_pass_by_value))] //because clap allways passes a String
 fn is_valid_path(input: String) -> Result<(), String> {
     let path = PathBuf::from(&input);
@@ -91,6 +103,7 @@ fn is_valid_path(input: String) -> Result<(), String> {
     Err(format!("Could not locate the given directory: {}", input))
 }
 
+/// Checks if the address is valid
 #[cfg_attr(feature = "cargo-clippy", allow(needless_pass_by_value))] //because clap allways passes a String
 fn is_valid_address(input: String) -> Result<(), String> {
     if let Ok(mut socket_iter) = input.to_socket_addrs() {
@@ -102,6 +115,7 @@ fn is_valid_address(input: String) -> Result<(), String> {
     Err(String::from("Invalid socket address"))
 }
 
+/// Parse the command line arguments with clap and return a Config object
 pub fn parse_arguments() -> Config {
     let matches = app_from_crate!()
         .arg(

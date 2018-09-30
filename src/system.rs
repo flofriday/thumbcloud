@@ -1,5 +1,7 @@
 use std::time::SystemTime;
 
+// TODO: this can/should be a macro
+/// Returns the name of the OS
 pub fn get_os<'a>() -> &'a str {
     if cfg!(target_os = "windows") {
         "Windows"
@@ -26,6 +28,13 @@ pub fn get_os<'a>() -> &'a str {
     }
 }
 
+/// Returns a JSON object with the uptime in seconds of Thumbcloud
+/// ```
+/// {
+///     action: "sendUptime",
+///     uptime: "60"
+/// }
+/// ```
 pub fn get_uptime_respond(start_time: &SystemTime) -> String {
     match start_time.elapsed() {
         Ok(e) => json!({
