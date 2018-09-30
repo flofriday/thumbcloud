@@ -83,7 +83,7 @@ Check out [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ### v0.0.4
 - [X] Use clippy to improve code quality
-- [ ] Add detailed documentation
+- [X] Add detailed documentation
 - [X] Add contribution guidelines
 
 ### v0.1.0
@@ -91,9 +91,11 @@ Check out [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 - [ ] GUI for server
 - [ ] Add Logo
 - [ ] Product Website
+- [ ] Upload to crates.io
 
 ### after v0.1.0
 - [ ] Download folders as .zip
+- [ ] Easy installer
 - [ ] View file content without downloading
 - [ ] File Operations
     - [ ] Drag & Drop
