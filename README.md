@@ -2,6 +2,9 @@
 Thumbcloud is a file-sharing server to replace your USB thumbdrive
 ![Screenshot](./screenshot.png)
 
+## Unmaintained
+I don't intend to maintain this project. It's been a couple of years and I no longer work with rust on a regular basis.
+
 ## Idea and State
 Sharing files via a USB thumbdrive is not optimal:
 * only one user can access the content at a time
